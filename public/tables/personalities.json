@@ -1,0 +1,16 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "personalities.friendly", "value": "friendly" },
+  { "label": "personalities.cold", "value": "cold" },
+  { "label": "personalities.shy", "value": "shy" },
+  { "label": "personalities.outgoing", "value": "outgoing" },
+  { "label": "personalities.humorous", "value": "humorous" },
+  { "label": "personalities.serious", "value": "serious" },
+  { "label": "personalities.eccentric", "value": "eccentric" },
+  { "label": "personalities.charming", "value": "charming" },
+  { "label": "personalities.aggressive", "value": "aggressive" },
+  { "label": "personalities.kind", "value": "kind" },
+  { "label": "personalities.brooding", "value": "brooding" },
+  { "label": "personalities.ambitious", "value": "ambitious" },
+  { "label": "personalities.lazy", "value": "lazy" }
+]

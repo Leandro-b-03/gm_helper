@@ -1,0 +1,12 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "alignments.lawful_good", "value": "lawful-good" },
+  { "label": "alignments.neutral_good", "value": "neutral-good" },
+  { "label": "alignments.chaotic_good", "value": "chaotic-good" },
+  { "label": "alignments.lawful_neutral", "value": "lawful-neutral" },
+  { "label": "alignments.true_neutral", "value": "true-neutral" },
+  { "label": "alignments.chaotic_neutral", "value": "chaotic-neutral" },
+  { "label": "alignments.lawful_evil", "value": "lawful-evil" },
+  { "label": "alignments.neutral_evil", "value": "neutral-evil" },
+  { "label": "alignments.chaotic_evil", "value": "chaotic-evil" }
+]

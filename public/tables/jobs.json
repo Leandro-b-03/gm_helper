@@ -1,0 +1,18 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "jobs.no_job", "value": "no_job" },
+  { "label": "jobs.blacksmith", "value": "blacksmith" },
+  { "label": "jobs.farmer", "value": "farmer" },
+  { "label": "jobs.merchant", "value": "merchant" },
+  { "label": "jobs.guard", "value": "guard" },
+  { "label": "jobs.innkeeper", "value": "innkeeper" },
+  { "label": "jobs.alchemist", "value": "alchemist" },
+  { "label": "jobs.tailor", "value": "tailor" },
+  { "label": "jobs.fisherman", "value": "fisherman" },
+  { "label": "jobs.hunter", "value": "hunter" },
+  { "label": "jobs.bard", "value": "bard" },
+  { "label": "jobs.soldier", "value": "soldier" },
+  { "label": "jobs.carpenter", "value": "carpenter" },
+  { "label": "jobs.sailor", "value": "sailor" },
+  { "label": "jobs.miner", "value": "miner" }
+]

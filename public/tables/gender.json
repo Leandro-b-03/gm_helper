@@ -1,0 +1,5 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "gender.male", "value": "male" },
+  { "label": "gender.female", "value": "female" }
+]

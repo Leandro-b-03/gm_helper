@@ -1,0 +1,14 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "affiliations.dnd2014.harpers", "value": "harpers" },
+  { "label": "affiliations.dnd2014.zhentarim", "value": "zhentarim" },
+  { "label": "affiliations.dnd2014.order_of_the_gauntlet", "value": "order_of_the_gauntlet" },
+  { "label": "affiliations.dnd2014.emerald_enclave", "value": "emerald_enclave" },
+  { "label": "affiliations.dnd2014.lords_alliance", "value": "lords_alliance" },
+  { "label": "affiliations.dnd2014.cult_of_the_dragon", "value": "cult_of_the_dragon" },
+  { "label": "affiliations.dnd2014.red_wizards", "value": "red_wizards" },
+  { "label": "affiliations.dnd2014.xanathar_guild", "value": "xanathar_guild" },
+  { "label": "affiliations.dnd2024.house_cannith", "value": "house_cannith" },
+  { "label": "affiliations.dnd2024.house_phiarlan", "value": "house_phiarlan" },
+  { "label": "affiliations.dnd2024.house_thuranni", "value": "house_thuranni" }
+]

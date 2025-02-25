@@ -1,0 +1,16 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "backgrounds.acolyte", "value": "acolyte" },
+  { "label": "backgrounds.charlatan", "value": "charlatan" },
+  { "label": "backgrounds.criminal", "value": "criminal" },
+  { "label": "backgrounds.entertainer", "value": "entertainer" },
+  { "label": "backgrounds.folk_hero", "value": "folk-hero" },
+  { "label": "backgrounds.guild_artisan", "value": "guild-artisan" },
+  { "label": "backgrounds.hermit", "value": "hermit" },
+  { "label": "backgrounds.noble", "value": "noble" },
+  { "label": "backgrounds.outlander", "value": "outlander" },
+  { "label": "backgrounds.sage", "value": "sage" },
+  { "label": "backgrounds.sailor", "value": "sailor" },
+  { "label": "backgrounds.soldier", "value": "soldier" },
+  { "label": "backgrounds.urchin", "value": "urchin" }
+]

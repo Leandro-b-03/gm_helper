@@ -1,0 +1,13 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "backstory.orphan", "value": "orphan" },
+  { "label": "backstory.noble_upbringing", "value": "noble_upbringing" },
+  { "label": "backstory.former_soldier", "value": "former_soldier" },
+  { "label": "backstory.exiled", "value": "exiled" },
+  { "label": "backstory.disgraced", "value": "disgraced" },
+  { "label": "backstory.mysterious_past", "value": "mysterious_past" },
+  { "label": "backstory.tragic_loss", "value": "tragic_loss" },
+  { "label": "backstory.reformed_criminal", "value": "reformed_criminal" },
+  { "label": "backstory.nomad", "value": "nomad" },
+  { "label": "backstory.academic", "value": "academic" }
+]

@@ -1,0 +1,16 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "goals.ambition", "value": "ambition" },
+  { "label": "goals.revenge", "value": "revenge" },
+  { "label": "goals.wealth", "value": "wealth" },
+  { "label": "goals.power", "value": "power" },
+  { "label": "goals.knowledge", "value": "knowledge" },
+  { "label": "goals.fame", "value": "fame" },
+  { "label": "goals.redemption", "value": "redemption" },
+  { "label": "goals.duty", "value": "duty" },
+  { "label": "goals.survival", "value": "survival" },
+  { "label": "goals.freedom", "value": "freedom" },
+  { "label": "goals.justice", "value": "justice" },
+  { "label": "goals.exploration", "value": "exploration" },
+  { "label": "goals.self_discovery", "value": "self_discovery" }
+]

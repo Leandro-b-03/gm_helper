@@ -1,0 +1,9 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "sex_orientation.heterosexual", "value": "heterosexual" },
+  { "label": "sex_orientation.homosexual", "value": "homosexual" },
+  { "label": "sex_orientation.bisexual", "value": "bisexual" },
+  { "label": "sex_orientation.asexual", "value": "asexual" },
+  { "label": "sex_orientation.pansexual", "value": "pansexual" },
+  { "label": "sex_orientation.queer", "value": "queer" }
+]

@@ -1,0 +1,14 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "appearances.scarred", "value": "scarred" },
+  { "label": "appearances.tattooed", "value": "tattooed" },
+  { "label": "appearances.disheveled", "value": "disheveled" },
+  { "label": "appearances.elegant", "value": "elegant" },
+  { "label": "appearances.athletic", "value": "athletic" },
+  { "label": "appearances.plump", "value": "plump" },
+  { "label": "appearances.groomed", "value": "groomed" },
+  { "label": "appearances.mysterious", "value": "mysterious" },
+  { "label": "appearances.exotic", "value": "exotic" },
+  { "label": "appearances.burly", "value": "burly" },
+  { "label": "appearances.delicate", "value": "delicate" }
+]

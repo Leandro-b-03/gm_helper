@@ -1,0 +1,234 @@
+{
+  "app": "APP",
+  "common": {
+    "random": "Aleatório",
+    "yes": "Sim",
+    "no": "Não",
+    "name": "Nome",
+    "proeficiency": "Proficiência",
+    "bonus": "Bônus",
+    "walking": "Movimento",
+    "speed": "Velocidade"
+  },
+  "home": {
+    "title": "Início",
+    "description": "Página inicial do seu site",
+    "cards": {
+      "title": "Bem-vindo ao site game master",
+      "description": "Aqui você pode gerenciar seus NPCs, itens e inimigos, além de gravar as iniciativas de combate",
+      "npcs": "Ultimos NPCs criados"
+    }
+  },
+  "about": {
+    "title": "Sobre",
+    "description": "Página sobre o seu site"
+  },
+  "gm": {
+    "title": "Mestre",
+    "description": "Página do mestre do jogo"
+  },
+  "generate": {
+    "title": "Gerar",
+    "description": "Gere o conteúdo estático do seu site",
+    "npcs": {
+      "title": "NPC",
+      "description": "NPC gerado foi:"
+    },
+    "items": {
+      "title": "Itens",
+      "description": "Gere o conteúdo estático do seu site"
+    },
+    "enemies": {
+      "title": "Inimigos",
+      "description": "Gere o conteúdo estático do seu site"
+    }
+  },
+  "combat": {
+    "title": "Combate",
+    "description": "Gere o conteúdo estático do seu site",
+    "initiative": {
+      "title": "Iniciativa",
+      "description": "Gere o conteúdo estático do seu site"
+    }
+  },
+  "age": {
+    "title": "Idade",
+  },
+  "level": {
+    "title": "Nível",
+  },
+  "races": {
+    "title": "Raças",
+    "title_s": "Raça",
+    "human": "Humano",
+    "elf": "Elfo",
+    "dwarf": "Anão",
+    "halfling": "Halfling",
+    "dragonborn": "Dragonborn",
+    "gnome": "Gnomo",
+    "half_elf": "Meio-elfo",
+    "half_orc": "Meio-orc",
+    "tiefling": "Tiefling",
+    "aarakocra": "Aarakocra",
+    "genasi": "Genasi",
+    "goliath": "Goliath",
+    "aasimar": "Aasimar",
+    "bugbear": "Bugbear",
+    "firbolg": "Firbolg",
+    "goblin": "Goblin",
+    "hobgoblin": "Hobgoblin",
+    "kenku": "Kenku"
+  },
+  "classes": {
+    "title": "Classes",
+    "barbarian": "Bárbaro",
+    "bard": "Bardo",
+    "cleric": "Clérigo",
+    "druid": "Druida",
+    "fighter": "Guerreiro",
+    "monk": "Monge",
+    "paladin": "Paladino",
+    "ranger": "Ranger",
+    "rogue": "Ladino",
+    "sorcerer": "Feiticeiro",
+    "warlock": "Bruxo",
+    "wizard": "Mago"
+  },
+  "alignments": {
+    "title": "Alinhamento",
+    "lawful_good": "Leal e bom",
+    "neutral_good": "Neutro e bom",
+    "chaotic_good": "Caótico e bom",
+    "lawful_neutral": "Leal e neutro",
+    "true_neutral": "Neutro",
+    "chaotic_neutral": "Caótico e neutro",
+    "lawful_evil": "Leal e mau",
+    "neutral_evil": "Neutro e mau",
+    "chaotic_evil": "Caótico e mau"
+  },
+  "backgrounds": {
+    "title": "História",
+    "acolyte": "Acólito",
+    "charlatan": "Trapaceiro",
+    "criminal": "Criminoso",
+    "entertainer": "Artista",
+    "folk_hero": "Herói do povo",
+    "guild_artisan": "Artesão",
+    "hermit": "Eremita",
+    "noble": "Nobre",
+    "outlander": "Forasteiro",
+    "sage": "Sábio",
+    "sailor": "Marujo",
+    "soldier": "Soldado",
+    "urchin": "Vagabundo"
+  },
+  "gender": {
+    "title": "Gênero",
+    "male": "Masculino",
+    "female": "Feminino"
+  },
+  "sex_orientation": {
+    "title": "Orientação sexual",
+    "heterosexual": "Heterossexual",
+    "homosexual": "Homossexual",
+    "bisexual": "Bissexual",
+    "asexual": "Assexual",
+    "pansexual": "Pansexual",
+    "queer": "Queer"
+  },
+  "jobs": {
+    "title": "Profissão",
+    "no_job": "Sem profissão",
+    "blacksmith": "Ferreiro",
+    "farmer": "Fazendeiro",
+    "merchant": "Comerciante",
+    "guard": "Guarda",
+    "innkeeper": "Estalajadeiro",
+    "alchemist": "Alquimista",
+    "tailor": "Alfaiate",
+    "fisherman": "Pescador",
+    "hunter": "Caçador",
+    "bard": "Bardo",
+    "soldier": "Soldado",
+    "carpenter": "Carpinteiro",
+    "sailor": "Marinheiro",
+    "miner": "Mineiro"
+  },
+  "appearances": {
+    "title": "Aparência",
+    "scarred": "Com cicatrizes",
+    "tattooed": "Tatuado",
+    "disheveled": "Desalinhado",
+    "elegant": "Elegante",
+    "athletic": "Atlético",
+    "plump": "Gordinho",
+    "groomed": "Bem cuidado",
+    "mysterious": "Misterioso",
+    "exotic": "Exótico",
+    "burly": "Robusto",
+    "delicate": "Delicado"
+  },
+  "personalities": {
+    "title": "Personalidade",
+    "friendly": "Amigável",
+    "cold": "Frio",
+    "shy": "Tímido",
+    "outgoing": "Extrovertido",
+    "humorous": "Humorístico",
+    "serious": "Sério",
+    "eccentric": "Excêntrico",
+    "charming": "Charmoso",
+    "aggressive": "Agressivo",
+    "kind": "Gentil",
+    "brooding": "Melancólico",
+    "ambitious": "Ambicioso",
+    "lazy": "Preguiçoso"
+  },
+  "affiliations": {
+    "title": "Afiliações",
+    "dnd2014": {
+      "harpers": "Harpers",
+      "zhentarim": "Zhentarim",
+      "order_of_the_gauntlet": "Ordem da Manopla",
+      "emerald_enclave": "Enclave Esmeralda",
+      "lords_alliance": "Aliança dos Lordes",
+      "cult_of_the_dragon": "Culto do Dragão",
+      "red_wizards": "Magos Vermelhos",
+      "xanathar_guild": "Guilda Xanathar"
+    },
+    "dnd2024": {
+      "house_cannith": "Casa Cannith",
+      "house_phiarlan": "Casa Phiarlan",
+      "house_thuranni": "Casa Thuranni"
+    }
+  },
+  "goals": {
+    "title": "Objetivo",
+    "ambition": "Ambição",
+    "revenge": "Vingança",
+    "wealth": "Riqueza",
+    "power": "Poder",
+    "knowledge": "Conhecimento",
+    "fame": "Fama",
+    "redemption": "Redenção",
+    "duty": "Dever",
+    "survival": "Sobrevivência",
+    "freedom": "Liberdade",
+    "justice": "Justiça",
+    "exploration": "Exploração",
+    "self_discovery": "Autodescoberta"
+  },
+  "backstory": {
+    "title": "História",
+    "orphan": "Órfão",
+    "noble_upbringing": "Criação nobre",
+    "former_soldier": "Ex-soldado",
+    "exiled": "Exilado",
+    "disgraced": "Desgraçado",
+    "mysterious_past": "Passado misterioso",
+    "tragic_loss": "Perda trágica",
+    "reformed_criminal": "Criminoso reformado",
+    "nomad": "Nômade",
+    "academic": "Acadêmico"
+  }
+}

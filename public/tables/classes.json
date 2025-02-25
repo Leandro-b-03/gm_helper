@@ -1,0 +1,15 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "classes.barbarian", "value": "barbarian" },
+  { "label": "classes.bard", "value": "bard" },
+  { "label": "classes.cleric", "value": "cleric" },
+  { "label": "classes.druid", "value": "druid" },
+  { "label": "classes.fighter", "value": "fighter" },
+  { "label": "classes.monk", "value": "monk" },
+  { "label": "classes.paladin", "value": "paladin" },
+  { "label": "classes.ranger", "value": "ranger" },
+  { "label": "classes.rogue", "value": "rogue" },
+  { "label": "classes.sorcerer", "value": "sorcerer" },
+  { "label": "classes.warlock", "value": "warlock" },
+  { "label": "classes.wizard", "value": "wizard" }
+]
