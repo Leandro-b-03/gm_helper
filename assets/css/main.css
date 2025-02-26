@@ -123,3 +123,7 @@ body {
 .basic_info_card {
   background: url('@/assets/images/bg_common_6.svg') no-repeat center;
 }
+
+.armor_class_card {
+  background: url('@/assets/images/bg_class_armor.svg') no-repeat center;
+}

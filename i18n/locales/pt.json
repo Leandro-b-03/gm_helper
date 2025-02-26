@@ -8,7 +8,19 @@
     "proeficiency": "Proficiência",
     "bonus": "Bônus",
     "walking": "Movimento",
-    "speed": "Velocidade"
+    "speed": "Velocidade",
+    "armor": "Armadura",
+    "class": "Classe",
+    "armor_i": "Classe de",
+    "class_i": "Armadura"
+  },
+  "attr": {
+    "str": "Força",
+    "dex": "Destreza",
+    "con": "Constituição",
+    "int": "Inteligência",
+    "wis": "Sabedoria",
+    "cha": "Carisma"
   },
   "home": {
     "title": "Início",
