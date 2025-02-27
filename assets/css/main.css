@@ -98,6 +98,10 @@ body {
   font-size: 14px;
 }
 
+.alegreya {
+  font-family: "Alegreya Sans SC", sans-serif;
+}
+
 .app {
   display: flex;
   flex-direction: column;

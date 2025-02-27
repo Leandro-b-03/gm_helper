@@ -133,7 +133,8 @@ const initialValues = reactive({
   goals: goals.value[0],
   backstory: backstories.value[0]
 });
-const panelColapsed = ref(false);
+// const panelColapsed = ref(false);
+const panelColapsed = ref(true);
 
 const resolver = ({ values }) => {
     const errors = {};
@@ -523,7 +524,7 @@ const onFormSubmit = ({ valid }) => {
                 <p class="font-light">Integer ultricies nunc ante, eget interdum sem maximus ut</p>
               </div>
               <div>
-                <h2 class="text-2xl mb-2">{{ $t('common.appearance') }}</h2>
+                <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
                 <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
                 <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
               </div>
@@ -538,7 +539,7 @@ const onFormSubmit = ({ valid }) => {
                 <p class="font-light">Integer ultricies nunc ante, eget interdum sem maximus ut</p>
               </div>
               <div>
-                <h2 class="text-2xl mb-2">{{ $t('common.appearance') }}</h2>
+                <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
                 <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
                 <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
               </div>
@@ -548,7 +549,10 @@ const onFormSubmit = ({ valid }) => {
         <div class="inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
           <div class="w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden">
             <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
-              <h2 class="text-3xl text-gray-50">{{ npc.name }}</h2>
+              <div>
+                <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }}</h2>
+                <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${npc.sexOrientation}` }}</small>
+              </div>
               <div class="flex flex-col">
                 <small class="text-gray-50">{{ npc.race }}</small>
                 <small class="text-gray-50">{{ npc.classes }}</small>
@@ -556,20 +560,70 @@ const onFormSubmit = ({ valid }) => {
               </div>
             </div>
             <div class="body p-4">
-              <table class="table-auto w-full border border-gray-300 rounded">
-                <tr class="border-b border-gray-300">
-                  <td class="bg-gray-200 p-1 rounded-tl w-[35%] text-right">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
-                  <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
-                </tr>
-                <tr class="border-b border-gray-300">
-                  <td class="bg-gray-200 p-1 text-right">{{ $t('common.hit_points') }}</td>
-                  <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
-                </tr>
-                <tr class="">
-                  <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.speed') }}</td>
-                  <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }} m</td>
-                </tr>
+              <table class="table-auto w-full border-separate mb-2">
+                <tbody>
+                  <tr class="border-b border-gray-300">
+                    <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
+                    <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
+                  </tr>
+                  <tr class="border-b border-gray-300">
+                    <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
+                    <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
+                  </tr>
+                  <tr class="">
+                    <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
+                    <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }} m</td>
+                  </tr>
+                </tbody>
               </table>
+              <div class="attrs flex fles-row justify-between gap-1 mb-2">
+                <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
+                  <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
+                  <div>
+                    <div class="flex flex-row items-center justify-center gap-1">
+                      <span class="font-light">{{ attr.value }}</span>
+                      <span class="font-semibold text-gray-500"> ({{ attr.bonus >= 0 ? `+${attr.bonus}` : attr.bonus }})</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table class="w-full border-separate mb-2">
+                <tbody>
+                  <tr class="border-b border-gray-300">
+                    <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
+                    <td class="bg-gray-100 p-1 rounded-tr">{{ npc.saving_throws }}</td>
+                  </tr>
+                  <tr class="border-b border-gray-300">
+                    <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
+                    <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
+                    <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                  <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
+                </div>
+                <div class="text-justify text-xs p-2">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                  <p>Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
+                  <p>Sed mattis lacus sit amet ligula vehicula consequat</p>
+                  <p>Nunc sit amet consectetur nisi</p>
+                  <p>Integer ultricies nunc ante, eget interdum sem maximus ut</p>
+                </div>
+              </div>
+              <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                  <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
+                </div>
+                <div class="text-justify text-xs p-2">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
+                  <p>Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
