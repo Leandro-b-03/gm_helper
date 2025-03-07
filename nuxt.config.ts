@@ -60,6 +60,8 @@ export default defineNuxtConfig({
       itemsCollectionID: process.env.ITEMS,
       enemiesCollectionID: process.env.ENEMIES,
       initiativeCollectionID: process.env.INITIATIVE
-    }
+    },
+    deepseekUrl: process.env.DEEPSEEK_URL,
+    deepseekKey: process.env.DEEPSEEK_API_KEY,
   },
 });
