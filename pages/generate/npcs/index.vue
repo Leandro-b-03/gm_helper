@@ -201,10 +201,21 @@ const resolver = ({ values }) => {
     };
 };
 
-const onFormSubmit = ({ valid }) => {
+const onFormSubmit = async ({ values, valid }) => {
   panelColapsed.value = true;
   if (valid) {
-    console.log('Form submitted');
+    const formData = new FormData();
+    formData.append('generate', 'NPC');
+    Object.entries(values).map(([key, value]) => {
+      formData.append(key, value.value);
+    });
+
+    const { data: npcGenerated, status: statusNPC, error: errorNPC, refresh: refreshNPC, clear: clearNPC } = await useAsyncData(
+      'NPC',
+      () => $fetch('/api/generate/core', { method: 'POST', body: formData })
+    );
+
+    console.log(npcGenerated);
   }
 };
 </script>
