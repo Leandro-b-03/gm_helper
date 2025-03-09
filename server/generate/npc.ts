@@ -1,91 +1,126 @@
 import random from '@/server/utils/random';
+import { ref } from 'vue';
 
-export function generateNPC(
+interface NPCType {
+  affiliation: string;
+  age: number | string;
+  alignment: string;
+  appearance: string;
+  background: string;
+  backstory: string;
+  class: string;
+  gender: string;
+  goal: string;
+  job: string;
+  level: number | string;
+  personality: string;
+  race: string;
+  sex_orientation: string;
+}
+
+const generateNPC = (
   affiliation: string,
-  age: any,
+  age: number | string,
   alignment: string,
   appearance: string,
   background: string,
   backstory: string,
-  class_: string,
+  class_: string, // Changed class_ to class_
   gender: string,
   goal: string,
   job: string,
-  level: any,
+  level: number | string,
   personality: string,
   race: string,
   sex_orientation: string
-) {
-  return {
-    name: "generateNPC",
-    description: "Generate",
-    async run() {
-      if (affiliation === 'random') {
-        affiliation = random.affiliation().value;
-      }
-      if (age === 'random') {
-        age = random.age().value;
-      }
-      if (alignment === 'random') {
-        alignment = random.alignment().value;
-      }
-      if (appearance === 'random') {
-        appearance = random.appearance().value;
-      }
-      if (background === 'random') {
-        background = random.background().value;
-      }
-      if (backstory === 'random') {
-        backstory = random.backstory().value;
-      }
-      if (class_ === 'random') {
-        class_ = random.class_().value;
-      }
-      if (gender === 'random') {
-        gender = random.gender_().value;
-      }
-      if (goal === 'random') {
-        goal = random.goal().value;
-      }
-      if (job === 'random') {
-        job = random.job().value;
-      }
-      if (level === 'random') {
-        level = random.level().value;
-      }
-      if (personality === 'random') {
-        personality = random.personality().value;
-      }
-      if (race === 'random') {
-        race = random.race().value;
-      }
-      if (sex_orientation === 'random') {
-        sex_orientation = random.sex_orientation().value;
-      }
-      
-      const npc = {
-        affiliation,
-        age,
-        alignment,
-        appearance,
-        background,
-        backstory,
-        class: class_,
-        gender,
-        goal,
-        job,
-        level,
-        personality,
-        race,
-        sex_orientation
-      };
+) => {
+  if (affiliation === 'random') {
+    affiliation = random.affiliation().value;
+  }
+  if (age === 'random') {
+    age = random.age().value;
+  }
+  if (alignment === 'random') {
+    alignment = random.alignment().value;
+  }
+  if (appearance === 'random') {
+    appearance = random.appearance().value;
+  }
+  if (background === 'random') {
+    background = random.background().value;
+  }
+  if (backstory === 'random') {
+    backstory = random.backstory().value;
+  }
+  if (class_ === 'random') {
+    class_ = random.class_().value;
+  }
+  if (gender === 'random') {
+    gender = random.gender_().value;
+  }
+  if (goal === 'random') {
+    goal = random.goal().value;
+  }
+  if (job === 'random') {
+    job = random.job().value;
+  }
+  if (level === 'random') {
+    level = random.level().value;
+  }
+  if (personality === 'random') {
+    personality = random.personality().value;
+  }
+  if (race === 'random') {
+    race = random.race().value;
+  }
+  if (sex_orientation === 'random') {
+    sex_orientation = random.sex_orientation().value;
+  }
 
-      const prompt = {
-        prompt: "Create an NPC with the following traits:",
-        npc
-      };
-
-      return prompt;
-    },
+  const npc: NPCType = { //Create a new object inside of the function.
+    affiliation: affiliation,
+    age: age,
+    alignment: alignment,
+    appearance: appearance,
+    background: background,
+    backstory: backstory,
+    class: class_, // Use class_ here.
+    gender: gender,
+    goal: goal,
+    job: job,
+    level: level,
+    personality: personality,
+    race: race,
+    sex_orientation: sex_orientation,
   };
+
+  const values = {
+    prompt: `Create an NPC with the following traits: ${npcToReadableString(npc)}`,
+    attr: npc,
+  };
+
+  return values;
+};
+
+function npcToReadableString(npc: NPCType): string {
+  return `
+    Affiliation: ${npc.affiliation},
+    Age: ${npc.age},
+    Alignment: ${npc.alignment},
+    Appearance: ${npc.appearance},
+    Background: ${npc.background},
+    Backstory: ${npc.backstory},
+    Class: ${npc.class},
+    Gender: ${npc.gender},
+    Goal: ${npc.goal},
+    Job: ${npc.job},
+    Level: ${npc.level},
+    Personality: ${npc.personality},
+    Race: ${npc.race},
+    Sex Orientation: ${npc.sex_orientation}
+  `;
 }
+
+export const NPC = {
+  generateNPC,
+};

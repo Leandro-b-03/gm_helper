@@ -1,6 +1,11 @@
 {
   "app": "APP",
   "common": {
+    "loading": "Carregando...",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Deletar",
+    "create": "Criar",
     "random": "Aleatório",
     "yes": "Sim",
     "no": "Não",
@@ -33,7 +38,8 @@
     "skills": "Perícias",
     "language": "Idioma",
     "languages": "Idiomas",
-    "initiative": "Iniciativa"
+    "initiative": "Iniciativa",
+    "hit_dice": "Dado de vida"
   },
   "attr": {
     "str": "Força",
@@ -100,6 +106,7 @@
     "dragonborn": "Dragonborn",
     "gnome": "Gnomo",
     "half_elf": "Meio-elfo",
+    "half-elf": "Meio-elfo",
     "half_orc": "Meio-orc",
     "tiefling": "Tiefling",
     "aarakocra": "Aarakocra",

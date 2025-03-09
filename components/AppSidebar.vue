@@ -37,9 +37,6 @@ const items = ref([
       command: () => router.push('/combat/initiative')
     }
   ]
-},
-{
-  separator: true
 }
 ]);
 </script>

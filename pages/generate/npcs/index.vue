@@ -1,22 +1,26 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 
+const loading = ref(false);
 const npc = reactive({
+  show: false,
   name: 'Eldrathorn',
   age: '22',
-  race: 'Humano',
-  gender: 'Masculino',
+  race: 'human',
+  gender: 'male',
   alignment: 'Neutro Bom',
   level: '1',
-  classes: 'Lutador',
-  job: 'Taverneiro',
-  background: 'Nobre',
-  sexOrientation: 'Heterossexual',
-  appearance: 'Tatuado',
-  personality: 'Amigavel',
-  affiliations: 'Xanathar',
-  goals: 'Liberdade',
+  classes: 'fighter',
+  job: 'innkeeper',
+  background: 'noble',
+  sexOrientation: 'heterosexual',
+  appearance: 'tattooed',
+  personality: 'friendly',
+  affiliations: 'xanathar',
+  goal: 'freedom',
   backstory: 'Criação nobre',
+  languages: 'Comum, Elfo',
+  savingThrows: 'Força, Destreza',
   armourClass: 15,
   initiative: 2,
   speed: 9,
@@ -27,19 +31,19 @@ const npc = reactive({
       title: 'attr.str',
       short: 'STR',
       value: 16,
-      bonus: 3
+      bonus: "+3"
     },
     dex: {
       title: 'attr.dex',
       short: 'DEX',
       value: 14,
-      bonus: 2
+      bonus: "+2"
     },
     con: {
       title: 'attr.con',
       short: 'CON',
       value: 15,
-      bonus: 2
+      bonus: "+2"
     },
     int: {
       title: 'attr.int',
@@ -57,9 +61,11 @@ const npc = reactive({
       title: 'attr.cha',
       short: 'CHA',
       value: 13,
-      bonus: 1
+      bonus: "+1"
     }
-  }
+  },
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id. Sed mattis lacus sit amet ligula vehicula consequat. Nunc sit amet consectetur nisi. Integer ultricies nunc ante, eget interdum sem maximus ut.',
+  appearance_: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.'
 });
 const { data: age, status: statusAge, error: errorAge, refresh: refreshAge, clear: clearAge } = await useAsyncData(
   'age',
@@ -123,18 +129,18 @@ const initialValues = reactive({
   gender: gender.value[0],
   alignment: alignments.value[0],
   level: levels.value[0],
-  classes: classesData.value[0],
+  class_: classesData.value[0],
   job: jobs.value[0],
   background: backgrounds.value[0],
-  sexOrientation: sexOrientations.value[0],
+  sex_orientation: sexOrientations.value[0],
   appearance: appearances.value[0],
   personality: personalities.value[0],
-  affiliations: affiliations.value[0],
-  goals: goals.value[0],
+  affiliation: affiliations.value[0],
+  goal: goals.value[0],
   backstory: backstories.value[0]
 });
-// const panelColapsed = ref(false);
-const panelColapsed = ref(true);
+const panelColapsed = ref(false);
+// const panelColapsed = ref(true);
 
 const resolver = ({ values }) => {
     const errors = {};
@@ -159,8 +165,8 @@ const resolver = ({ values }) => {
       errors.level = [{ message: 'Level is required.' }];
     }
 
-    if (!values.class) {
-      errors.class = [{ message: 'Class is required.' }];
+    if (!values.class_) {
+      errors.class_ = [{ message: 'Class is required.' }];
     }
 
     if (!values.jobs) {
@@ -171,8 +177,8 @@ const resolver = ({ values }) => {
       errors.background = [{ message: 'Background is required.' }];
     }
 
-    if (!values.sexOrientation) {
-      errors.sexOrientation = [{ message: 'Sex orientation is required' }];
+    if (!values.sex_orientation) {
+      errors.sex_orientation = [{ message: 'Sex orientation is required' }];
     }
 
     if (!values.appearance) {
@@ -183,12 +189,12 @@ const resolver = ({ values }) => {
       errors.personality = [{ message: 'Personality is required.' }];
     }
 
-    if (!values.affiliations) {
-      errors.affiliations = [{ message: 'Affiliations is required.' }];
+    if (!values.affiliation) {
+      errors.affiliation = [{ message: 'Affiliation is required.' }];
     }
 
-    if (!values.goals) {
-      errors.goals = [{ message: 'Goals is required.' }];
+    if (!values.goal) {
+      errors.goal = [{ message: 'Goals is required.' }];
     }
 
     if (!values.backstory) {
@@ -203,6 +209,8 @@ const resolver = ({ values }) => {
 
 const onFormSubmit = async ({ values, valid }) => {
   panelColapsed.value = true;
+  loading.value = true;
+  npc.show = true;
   if (valid) {
     const formData = new FormData();
     formData.append('generate', 'NPC');
@@ -210,12 +218,58 @@ const onFormSubmit = async ({ values, valid }) => {
       formData.append(key, value.value);
     });
 
-    const { data: npcGenerated, status: statusNPC, error: errorNPC, refresh: refreshNPC, clear: clearNPC } = await useAsyncData(
+    const { data: NPC, status, error } = await useAsyncData(
       'NPC',
-      () => $fetch('/api/generate/core', { method: 'POST', body: formData })
+      () => $fetch('/api/core', { method: 'POST', body: formData })
     );
 
-    console.log(npcGenerated);
+    npc.show = true;
+    npc.name = NPC.value.name;
+    npc.age = NPC.value.age;
+    npc.race = NPC.value.race;
+    npc.gender = NPC.value.gender;
+    npc.alignment = NPC.value.alignment;
+    npc.level = NPC.value.level;
+    npc.classes = NPC.value.class;
+    npc.job = NPC.value.job;
+    npc.background = NPC.value.background;
+    npc.sexOrientation = NPC.value.sex_orientation;
+    npc.description = NPC.value.description;
+    npc.appearance = NPC.value.appearance;
+    npc.appearance_ = NPC.value.appearance_;
+    npc.personality = NPC.value.personality;
+    npc.affiliations = NPC.value.affiliations;
+    npc.goal = NPC.value.goal;
+    npc.backstory = NPC.value.backstory;
+    npc.armourClass = NPC.value.armour_class;
+    npc.languages = NPC.value.languages;
+    npc.savingThrows = NPC.value.saving_throws;
+    npc.initiative = NPC.value.initiative;
+    npc.speed = NPC.value.speed;
+    npc.hitPoints = NPC.value.hitPoints;
+    npc.hitDice = NPC.value.hitDice;
+    npc.attr = NPC.value.attr;
+
+    if (status.value === 'success') {
+      loading.value = false;
+    }
+  }
+};
+
+const proeficiency = (level: number): string => {
+  // Implement the function logic here
+  if (level >= 1 && level <= 4) {
+    return '2';
+  } else if (level >= 5 && level <= 8) {
+    return '3';
+  } else if (level >= 9 && level <= 12) {
+    return '4';
+  } else if (level >= 13 && level <= 16) {
+    return '5';
+  } else if (level >= 17 && level <= 20) {
+    return '6';
+  } else {
+    return 'Invalid level';
   }
 };
 </script>
@@ -230,6 +284,21 @@ const onFormSubmit = async ({ values, valid }) => {
   padding: 1.25rem 10px;
   background-image: linear-gradient(135deg, #e0e4e8 25%, #d9dde1 25%, #d9dde1 50%, #e0e4e8 50%, #e0e4e8 75%, #d9dde1 75%, #d9dde1 100%);
   background-size: 10px 10px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
 
@@ -318,8 +387,8 @@ const onFormSubmit = async ({ values, valid }) => {
           <Message v-if="$form.level?.invalid" severity="error" size="small" variant="simple">{{ $form.level.error?.message }}</Message>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="classes" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('classes.title') }}</label>
-          <Select :options="classesData" optionLabel="label" name="classes" type="text" placeholder="class" fluid>
+          <label for="class_" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('classes.title') }}</label>
+          <Select :options="classesData" optionLabel="label" name="class_" type="text" placeholder="class" fluid>
             <template #value="{ value }">
               <div class="flex flex-row items-center gap-2">
                 <span>{{ $t(value.label) }}</span>
@@ -366,8 +435,8 @@ const onFormSubmit = async ({ values, valid }) => {
           <Message v-if="$form.background?.invalid" severity="error" size="small" variant="simple">{{ $form.background.error?.message }}</Message>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="sexOrientation" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('sex_orientation.title') }}</label>
-          <Select :options="sexOrientations" optionLabel="label" name="sexOrientation" type="text" placeholder="sexOrientation" fluid>
+          <label for="sex_orientation" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('sex_orientation.title') }}</label>
+          <Select :options="sexOrientations" optionLabel="label" name="sex_orientation" type="text" placeholder="sexOrientation" fluid>
             <template #value="{ value }">
               <div class="flex flex-row items-center gap-2">
                 <span>{{ $t(value.label) }}</span>
@@ -414,8 +483,8 @@ const onFormSubmit = async ({ values, valid }) => {
           <Message v-if="$form.personality?.invalid" severity="error" size="small" variant="simple">{{ $form.personality.error?.message }}</Message>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="affiliations" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('affiliations.title') }}</label>
-          <Select :options="affiliations" optionLabel="label" name="affiliations" type="text" placeholder="affiliations" fluid>
+          <label for="affiliation" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('affiliations.title') }}</label>
+          <Select :options="affiliations" optionLabel="label" name="affiliation" type="text" placeholder="affiliations" fluid>
             <template #value="{ value }">
               <div class="flex flex-row items-center gap-2">
                 <span>{{ $t(value.label) }}</span>
@@ -427,11 +496,11 @@ const onFormSubmit = async ({ values, valid }) => {
               </div>
             </template>
           </Select>
-          <Message v-if="$form.affiliations?.invalid" severity="error" size="small" variant="simple">{{ $form.affiliations.error?.message }}</Message>
+          <Message v-if="$form.affiliation?.invalid" severity="error" size="small" variant="simple">{{ $form.affiliation.error?.message }}</Message>
         </div>
         <div class="flex flex-col gap-1">
-          <label for="goals" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('goals.title') }}</label>
-          <Select :options="goals" optionLabel="label" name="goals" type="text" placeholder="goals" fluid>
+          <label for="goal" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('goals.title') }}</label>
+          <Select :options="goals" optionLabel="label" name="goal" type="text" placeholder="goals" fluid>
             <template #value="{ value }">
               <div class="flex flex-row items-center gap-2">
                 <span>{{ $t(value.label) }}</span>
@@ -443,7 +512,7 @@ const onFormSubmit = async ({ values, valid }) => {
               </div>
             </template>
           </Select>
-          <Message v-if="$form.goals?.invalid" severity="error" size="small" variant="simple">{{ $form.goals.error?.message }}</Message>
+          <Message v-if="$form.goal?.invalid" severity="error" size="small" variant="simple">{{ $form.goal.error?.message }}</Message>
         </div>
         <div class="flex flex-col gap-1">
           <label for="backstory" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('backstory.title') }}</label>
@@ -466,173 +535,199 @@ const onFormSubmit = async ({ values, valid }) => {
     </Form>
   </Panel>
 
-  <div class="bg-surface-50 dark:bg-surface-950 mt-4 rounded">
-    <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded">
-      <div class="text-3xl font-medium text-surface-900 dark:text-surface-0 mb-2">{{ $t('generate.npcs.title') }}</div>
-      <div class="font-medium text-surface-500 dark:text-surface-300 mb-4">{{ $t('generate.npcs.description') }}</div>
-      <div class="flex flex-col lg:flex-row">
-        <div class="w-full lg:w-1/2 border-r border-gray-400 dark:border-gray-300">
-          <section class="info mb-2 w-full lg:w-[340px] h-20 px-4 py-2 flex flex-row justify-between">
-            <div class="w-auto">
-              <div class="text-xs font-medium text-surface-500 dark:text-surface-300">{{ $t('common.name') }}</div>
-              <div class="text-base font-semibold text-surface-900 dark:text-surface-0">{{ npc.name }}</div>
-              <div class="text-xs font-light text-surface-900 dark:text-surface-0">{{ `${npc.age} ${$t('common.years')}` }}</div>
-            </div>
-            <div class="">
-              <div class="text-sm font-light text-surface-900 dark:text-surface-0">{{ npc.race }}</div>
-              <div class="text-sm font-medium text-surface-900 dark:text-surface-0">{{ npc.classes }}</div>
-              <div class="text-sm font-medium text-surface-900 dark:text-surface-0">{{ npc.job ? npc.job : '-' }}</div>
-            </div>
-          </section>
-          <div class="flex flex-row flex-wrap justify-start mb-2 gap-2">
-            <section class="w-auto flex flex-row gap-2 mb-1">
-              <div v-for="attr in npc.attr" class="ability_card h-[95px] w-[81px]">
-                <div class="px-3 py-1">
-                  <div class="flex items-center justify-center my-1">
-                    <span v-tooltip.top="attr.short" class="uppercase text-[9px] font-semibold text-gray-500">{{ $t(attr.title) }}</span>
-                  </div>
-                  <div class="flex items-center justify-center w-full rounded border border-gray-400 dark:border-gray-300 mb-1 h-8">
-                      <span class="text-xl">{{ attr.bonus > 0 ? `+${attr.bonus}` : attr.bonus }}</span>
-                  </div>
-                  <div class="flex items-center justify-center pt-1">{{ attr.value }}</div>
+  <TransitionGroup name="fade">
+    <div v-if="npc.show" class="bg-surface-50 dark:bg-surface-950 mt-4 rounded">
+      <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded">
+        <div class="text-3xl font-medium text-surface-900 dark:text-surface-0 mb-2">
+          <Skeleton v-if="loading" height="25px" width="150px" />
+          <span v-else>{{ $t('generate.npcs.title') }}</span>
+        </div>
+        <div class="font-medium text-surface-500 dark:text-surface-300 mb-4">
+          <Skeleton v-if="loading" width="100px" />
+          <span v-else>{{ $t('generate.npcs.description') }}</span>
+        </div>
+        <div class="flex flex-col lg:flex-row">
+          <div class="w-full lg:w-1/2 border-r border-gray-400 dark:border-gray-300">
+            <section class="info mb-2 w-full lg:w-[340px] h-20 px-4 py-2 flex flex-row justify-between">
+              <div class="w-auto">
+                <div class="text-xs font-medium text-surface-500 dark:text-surface-300">{{ $t('common.name') }}</div>
+                <div class="text-base font-semibold text-surface-900 dark:text-surface-0">
+                  <Skeleton v-if="loading" width="150px" />
+                  <span v-else>{{ npc.name }}</span>
+                </div>
+                <div class="text-xs font-light text-surface-900 dark:text-surface-0">
+                  <Skeleton v-if="loading" height="12px" width="50px" class="mt-1" />
+                  <span v-else>{{ `${npc.age} ${$t('common.years')}` }}</span>
+                </div>
+              </div>
+              <div class="">
+                <div class="text-sm font-light text-surface-900 dark:text-surface-0">
+                  <Skeleton v-if="loading" width="100px" class="mb-1" />
+                  <span v-else>{{ $t(`races.${npc.race}`) }}</span>
+                </div>
+                <div class="text-sm font-medium text-surface-900 dark:text-surface-0">
+                  <Skeleton v-if="loading" width="100px" class="mb-1" />
+                  <span v-else>{{ $t(`classes.${npc.classes}`) }}</span>
+                </div>
+                <div class="text-sm font-medium text-surface-900 dark:text-surface-0">
+                  <Skeleton v-if="loading" width="100px" />
+                  <span v-else>{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</span>
                 </div>
               </div>
             </section>
-            <section class="h-[95px] w-[81px] armor_class_card p-2 flex flex-col justify-center items-center uppercase">
-              <span class="text-[8px] relative top-1 -mt-2 font-semibold text-gray-500">{{ $t('common.armor_i') }}</span>
-              <div class="text-2xl">15</div>
-              <span class="text-[8px] relative -mt-1 font-semibold text-gray-500">{{ $t('common.class_i') }}</span>
-            </section>
-            <section class="h-[89px] w-[94px] proeficiency_card p-2 flex flex-col justify-center items-center uppercase">
-              <span class="text-[10px] font-semibold">{{ $t('common.proeficiency') }}</span>
-              <div class="my-1 text-2xl"><span class="text-gray-500">+</span>2</div>
-              <span class="font-semibold">{{ $t('common.bonus') }}</span>
-            </section>
-            <section class="h-[89px] w-[94px] walking_card p-2 flex flex-col justify-center items-center uppercase">
-              <span class="text-[10px] font-light">{{ $t('common.walking') }}</span>
-              <div class="my-1 text-2xl">9 <span class="text-gray-500 lowercase">m.</span></div>
-              <span class="text-[10px] font-semibold">{{ $t('common.speed') }}</span>
-            </section>
-            <section class="h-[89px] w-[300px] hp_card py-2 px-4">
-              <div class="flex flex-row justify-between items-center">
-                <span class="text-[10px] font-light">{{ $t('common.hit_points') }}</span>
-                <span class="text-[10px] font-light">{{ $t('common.hit_dice') }}</span>
-              </div>
-              <div class="flex flex-row justify-between items-center">
-                <span class="text-2xl font-semibold">12</span>
-                <span class="text-2xl font-semibold">1d10</span>
-              </div>
-            </section>
-          </div>
-          <div class="flex flex-row justify-start gap-4">
-            <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
-              <div class="mb-6">
-                <h2 class="text-2xl mb-2">{{ $t('common.description') }}</h2>
-                <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
-                <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
-                <p class="font-light">Sed mattis lacus sit amet ligula vehicula consequat</p>
-                <p class="font-light">Nunc sit amet consectetur nisi</p>
-                <p class="font-light">Integer ultricies nunc ante, eget interdum sem maximus ut</p>
-              </div>
-              <div>
-                <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
-                <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
-                <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
-              </div>
-            </section>
-            <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
-              <div class="mb-6">
-                <h2 class="text-2xl mb-2">{{ $t('common.description') }}</h2>
-                <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
-                <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
-                <p class="font-light">Sed mattis lacus sit amet ligula vehicula consequat</p>
-                <p class="font-light">Nunc sit amet consectetur nisi</p>
-                <p class="font-light">Integer ultricies nunc ante, eget interdum sem maximus ut</p>
-              </div>
-              <div>
-                <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
-                <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
-                <p class="font-light">Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div class="inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
-          <div class="w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden">
-            <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
-              <div>
-                <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }}</h2>
-                <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${npc.sexOrientation}` }}</small>
-              </div>
-              <div class="flex flex-col">
-                <small class="text-gray-50">{{ npc.race }}</small>
-                <small class="text-gray-50">{{ npc.classes }}</small>
-                <small class="text-gray-50">{{ npc.job }}</small>
-              </div>
-            </div>
-            <div class="body p-4">
-              <table class="table-auto w-full border-separate mb-2">
-                <tbody>
-                  <tr class="border-b border-gray-300">
-                    <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
-                    <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
-                  </tr>
-                  <tr class="border-b border-gray-300">
-                    <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
-                    <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
-                  </tr>
-                  <tr class="">
-                    <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
-                    <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }} m</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="attrs flex fles-row justify-between gap-1 mb-2">
-                <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
-                  <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
-                  <div>
-                    <div class="flex flex-row items-center justify-center gap-1">
-                      <span class="font-light">{{ attr.value }}</span>
-                      <span class="font-semibold text-gray-500"> ({{ attr.bonus >= 0 ? `+${attr.bonus}` : attr.bonus }})</span>
+            <div class="flex flex-row flex-wrap justify-start mb-2 gap-2">
+              <section class="w-auto flex flex-row gap-2 mb-1">
+                <div v-for="attr in npc.attr" class="ability_card h-[95px] w-[81px]">
+                  <div class="px-3 py-1">
+                    <div class="flex items-center justify-center my-1">
+                      <span v-tooltip.top="attr.short" class="uppercase text-[9px] font-semibold text-gray-500">{{ $t(attr.title) }}</span>
+                    </div>
+                    <div class="flex items-center justify-center w-full rounded border border-gray-400 dark:border-gray-300 mb-1 h-8">
+                      <Skeleton v-if="loading" width="25px" />
+                      <span v-else class="text-xl">{{ attr.bonus }}</span>
+                    </div>
+                    <div class="flex items-center justify-center pt-1">
+                      <Skeleton v-if="loading" width="15px" class="mt-1" />
+                      <span v-else>{{ attr.value }}</span>
                     </div>
                   </div>
                 </div>
+              </section>
+              <section class="h-[95px] w-[81px] armor_class_card p-2 flex flex-col justify-center items-center uppercase">
+                <span class="text-[8px] relative top-1 -mt-2 font-semibold text-gray-500">{{ $t('common.armor_i') }}</span>
+                <div class="text-2xl">
+                  <Skeleton v-if="loading" height="25px" width="25px" class="my-1" />
+                  <span v-else>{{ npc.armourClass }}</span>
+                </div>
+                <span class="text-[8px] relative -mt-1 font-semibold text-gray-500">{{ $t('common.class_i') }}</span>
+              </section>
+              <section class="h-[89px] w-[94px] proeficiency_card p-2 flex flex-col justify-center items-center uppercase">
+                <span class="text-[10px] font-semibold">{{ $t('common.proeficiency') }}</span>
+                <div class="my-1 text-2xl">
+                  <Skeleton v-if="loading" height="30px" width="30px" />
+                  <div v-else>
+                    <span class="text-gray-500">+</span>{{ proeficiency(npc.level) }}
+                  </div>
+                </div>
+                <span class="font-semibold">{{ $t('common.bonus') }}</span>
+              </section>
+              <section class="h-[89px] w-[94px] walking_card p-2 flex flex-col justify-center items-center uppercase">
+                <span class="text-[10px] font-light">{{ $t('common.walking') }}</span>
+                <div class="my-1 text-sm">
+                  <Skeleton v-if="loading" height="30px" width="30px" />
+                  <span v-else>{{ npc.speed }}</span>
+                </div>
+                <span class="text-[10px] font-semibold">{{ $t('common.speed') }}</span>
+              </section>
+              <section class="h-[89px] w-[300px] hp_card py-2 px-4">
+                <div class="flex flex-row justify-between items-center">
+                  <span class="text-[10px] font-light">{{ $t('common.hit_points') }}</span>
+                  <span class="text-[10px] font-light">{{ $t('common.hit_dice') }}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                  <Skeleton v-if="loading" height="25px" width="50px" />
+                  <span v-else class="text-2xl font-semibold">{{ npc.hitPoints }}</span>
+                  <Skeleton v-if="loading" height="25px" width="75px" />
+                  <span v-else class="text-2xl font-semibold">{{ npc.hitDice }}</span>
+                </div>
+              </section>
+            </div>
+            <div class="flex flex-row justify-start gap-4 overflow-scroll">
+              <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
+                <div class="mb-6 text-justify">
+                  <h2 class="text-2xl mb-2">{{ $t('common.description') }}</h2>
+                  <Skeleton v-if="loading" height="150px" width="100%" />
+                  <p v-else class="font-light">{{ npc.description }}</p>
+                </div>
+                <div class="text-jusitfy">
+                  <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
+                  <Skeleton v-if="loading" height="150px" width="100%" />
+                  <p v-else class="font-light">{{ npc.appearance_ }}</p>
+                </div>
+              </section>
+              <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
+                
+              </section>
+            </div>
+          </div>
+          <div class="inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
+            <div v-if="loading" class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded mt-4">
+              <div class="flex flex-col items-center justify-center">
+                <ProgressSpinner />
+                <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ $t('common.loading') }}</div>
               </div>
-              <table class="w-full border-separate mb-2">
-                <tbody>
-                  <tr class="border-b border-gray-300">
-                    <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
-                    <td class="bg-gray-100 p-1 rounded-tr">{{ npc.saving_throws }}</td>
-                  </tr>
-                  <tr class="border-b border-gray-300">
-                    <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
-                    <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
-                  </tr>
-                  <tr>
-                    <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
-                    <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="rounded bg-gray-100 overflow-hidden mb-2">
-                <div class="bg-gray-200 py-1 px-2 rounded-tl">
-                  <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
+            </div>
+            <div v-else class="w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden">
+              <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
+                <div>
+                  <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }}</h2>
+                  <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${npc.sexOrientation}` }}</small>
                 </div>
-                <div class="text-justify text-xs p-2">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  <p>Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
-                  <p>Sed mattis lacus sit amet ligula vehicula consequat</p>
-                  <p>Nunc sit amet consectetur nisi</p>
-                  <p>Integer ultricies nunc ante, eget interdum sem maximus ut</p>
+                <div class="flex flex-col">
+                  <small class="text-gray-50">{{ $t(`races.${npc.race}`) }}</small>
+                  <small class="text-gray-50">{{ $t(`classes.${npc.classes}`) }}</small>
+                  <small class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
                 </div>
               </div>
-              <div class="rounded bg-gray-100 overflow-hidden mb-2">
-                <div class="bg-gray-200 py-1 px-2 rounded-tl">
-                  <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
+              <div class="body p-4">
+                <table class="table-auto w-full border-separate mb-2">
+                  <tbody>
+                    <tr class="border-b border-gray-300">
+                      <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
+                      <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                      <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
+                      <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
+                    </tr>
+                    <tr class="">
+                      <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
+                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }} m</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="attrs flex fles-row justify-between gap-1 mb-2">
+                  <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
+                    <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
+                    <div>
+                      <div class="flex flex-row items-center justify-center gap-1">
+                        <span class="font-light">{{ attr.value }}</span>
+                        <span class="font-semibold text-gray-500"> ({{ attr.bonus }})</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="text-justify text-xs p-2">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo.</p>
-                  <p>Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.</p>
+                <table class="w-full border-separate mb-2">
+                  <tbody>
+                    <tr class="border-b border-gray-300">
+                      <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
+                      <td class="bg-gray-100 p-1 rounded-tr">{{ npc.savingThrows }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                      <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
+                      <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
+                    </tr>
+                    <tr>
+                      <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
+                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                  <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                    <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
+                  </div>
+                  <div class="text-justify text-xs p-2">
+                    <p>{{ npc.description }}</p>
+                  </div>
+                </div>
+                <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                  <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                    <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
+                  </div>
+                  <div class="text-justify text-xs p-2">
+                    <p>{{ npc.appearance_ }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -640,5 +735,5 @@ const onFormSubmit = async ({ values, valid }) => {
         </div>
       </div>
     </div>
-  </div>
+  </TransitionGroup>
 </template>

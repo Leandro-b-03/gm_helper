@@ -11,25 +11,16 @@ export const aiHandler = () => {
     baseURL: OPENAI_URL,
   });
 
-  const aiCall = async (systemPrompt: string, prompt: string) => {
+  const aiCall = async (prompt: string) => {
     try {
       const completion = await openai.chat.completions.create({
-        model: 'deepseek-reasoner',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
+        messages: [{ role: "user", content: prompt }],
+        model: "deepseek-chat",
       });
 
-      console.log(completion.choices[0].message.content);
       return completion.choices[0].message.content;
     } catch (error) {
+      console.error(error);
       switch (error.response.status) {
         case 400:
           throw createError({ statusCode: 400, message: 'Bad Request' });
