@@ -71,7 +71,8 @@
     "description": "Gere o conteúdo estático do seu site",
     "npcs": {
       "title": "NPC",
-      "description": "NPC gerado foi:"
+      "description": "NPC gerado foi:",
+      "header": "Selecione as opções para gerar o NPC ou deixe tudo aleatório mesmo"
     },
     "items": {
       "title": "Itens",
@@ -105,9 +106,8 @@
     "halfling": "Halfling",
     "dragonborn": "Dragonborn",
     "gnome": "Gnomo",
-    "half_elf": "Meio-elfo",
     "half-elf": "Meio-elfo",
-    "half_orc": "Meio-orc",
+    "half-orc": "Meio-orc",
     "tiefling": "Tiefling",
     "aarakocra": "Aarakocra",
     "genasi": "Genasi",
@@ -183,7 +183,7 @@
     "farmer": "Fazendeiro",
     "merchant": "Comerciante",
     "guard": "Guarda",
-    "innkeeper": "Estalajadeiro",
+    "innkeeper": "Taberneiro",
     "alchemist": "Alquimista",
     "tailor": "Alfaiate",
     "fisherman": "Pescador",
@@ -259,7 +259,7 @@
     "self_discovery": "Autodescoberta"
   },
   "backstory": {
-    "title": "História",
+    "title": "Antepassado",
     "orphan": "Órfão",
     "noble_upbringing": "Criação nobre",
     "former_soldier": "Ex-soldado",

@@ -6,7 +6,7 @@
   { "label": "races.human", "value": "human" },
   { "label": "races.dragonborn", "value": "dragonborn" },
   { "label": "races.gnome", "value": "gnome" },
-  { "label": "races.half_elf", "value": "half-elf" },
-  { "label": "races.half_orc", "value": "half-orc" },
+  { "label": "races.half-elf", "value": "half-elf" },
+  { "label": "races.half-orc", "value": "half-orc" },
   { "label": "races.tiefling", "value": "tiefling" }
 ]

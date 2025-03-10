@@ -1,15 +1,16 @@
 <script setup lang="ts">
+const { database, ID } = useAppwrite();
 const config = useRuntimeConfig();
 
 const loading = ref(false);
 const npc = reactive({
   show: false,
   name: 'Eldrathorn',
-  age: '22',
+  age: 22,
   race: 'human',
   gender: 'male',
   alignment: 'Neutro Bom',
-  level: '1',
+  level: 1,
   classes: 'fighter',
   job: 'innkeeper',
   background: 'noble',
@@ -22,8 +23,8 @@ const npc = reactive({
   languages: 'Comum, Elfo',
   savingThrows: 'Força, Destreza',
   armourClass: 15,
-  initiative: 2,
-  speed: 9,
+  initiative: '2',
+  speed: "30 ft (9 m)",
   hitPoints: 12,
   hitDice: '1d10',
   attr: {
@@ -65,7 +66,8 @@ const npc = reactive({
     }
   },
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id. Sed mattis lacus sit amet ligula vehicula consequat. Nunc sit amet consectetur nisi. Integer ultricies nunc ante, eget interdum sem maximus ut.',
-  appearance_: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.'
+  appearance_: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.',
+  created_at: ''
 });
 const { data: age, status: statusAge, error: errorAge, refresh: refreshAge, clear: clearAge } = await useAsyncData(
   'age',
@@ -143,68 +145,68 @@ const panelColapsed = ref(false);
 // const panelColapsed = ref(true);
 
 const resolver = ({ values }) => {
-    const errors = {};
+  const errors = {};
 
-    if (!values.age) {
-        errors.age = [{ message: 'Age is required.' }];
-    }
+  if (!values.age) {
+      errors.age = [{ message: 'Age is required.' }];
+  }
 
-    if (!values.race) {
-        errors.race = [{ message: 'Username is required.' }];
-    }
+  if (!values.race) {
+      errors.race = [{ message: 'Username is required.' }];
+  }
 
-    if (!values.gender) {
-      errors.gender = [{ message: 'gender is required.' }];
-    }
+  if (!values.gender) {
+    errors.gender = [{ message: 'gender is required.' }];
+  }
 
-    if (!values.alignment) {
-      errors.alignment = [{ message: 'Alignment is required.' }];
-    }
+  if (!values.alignment) {
+    errors.alignment = [{ message: 'Alignment is required.' }];
+  }
 
-    if (!values.level) {
-      errors.level = [{ message: 'Level is required.' }];
-    }
+  if (!values.level) {
+    errors.level = [{ message: 'Level is required.' }];
+  }
 
-    if (!values.class_) {
-      errors.class_ = [{ message: 'Class is required.' }];
-    }
+  if (!values.class_) {
+    errors.class_ = [{ message: 'Class is required.' }];
+  }
 
-    if (!values.jobs) {
-      errors.jobs = [{ message: 'Jobs is required.' }];
-    }
+  if (!values.jobs) {
+    errors.jobs = [{ message: 'Jobs is required.' }];
+  }
 
-    if (!values.background) {
-      errors.background = [{ message: 'Background is required.' }];
-    }
+  if (!values.background) {
+    errors.background = [{ message: 'Background is required.' }];
+  }
 
-    if (!values.sex_orientation) {
-      errors.sex_orientation = [{ message: 'Sex orientation is required' }];
-    }
+  if (!values.sex_orientation) {
+    errors.sex_orientation = [{ message: 'Sex orientation is required' }];
+  }
 
-    if (!values.appearance) {
-      errors.appearance = [{ message: 'Appearance is required.' }];
-    }
+  if (!values.appearance) {
+    errors.appearance = [{ message: 'Appearance is required.' }];
+  }
 
-    if (!values.personality) {
-      errors.personality = [{ message: 'Personality is required.' }];
-    }
+  if (!values.personality) {
+    errors.personality = [{ message: 'Personality is required.' }];
+  }
 
-    if (!values.affiliation) {
-      errors.affiliation = [{ message: 'Affiliation is required.' }];
-    }
+  if (!values.affiliation) {
+    errors.affiliation = [{ message: 'Affiliation is required.' }];
+  }
 
-    if (!values.goal) {
-      errors.goal = [{ message: 'Goals is required.' }];
-    }
+  if (!values.goal) {
+    errors.goal = [{ message: 'Goals is required.' }];
+  }
 
-    if (!values.backstory) {
-      errors.backstory = [{ message: 'Backstory is required.' }];
-    }
+  if (!values.backstory) {
+    errors.backstory = [{ message: 'Backstory is required.' }];
+  }
 
-    return {
-        values, // (Optional) Used to pass current form values to submit event.
-        errors
-    };
+  return {
+      values, // (Optional) Used to pass current form values to submit event.
+      errors
+  };
 };
 
 const onFormSubmit = async ({ values, valid }) => {
@@ -225,11 +227,11 @@ const onFormSubmit = async ({ values, valid }) => {
 
     npc.show = true;
     npc.name = NPC.value.name;
-    npc.age = NPC.value.age;
+    npc.age = parseInt(NPC.value.age, 10);
     npc.race = NPC.value.race;
     npc.gender = NPC.value.gender;
     npc.alignment = NPC.value.alignment;
-    npc.level = NPC.value.level;
+    npc.level = parseInt(NPC.value.level, 10);
     npc.classes = NPC.value.class;
     npc.job = NPC.value.job;
     npc.background = NPC.value.background;
@@ -241,18 +243,38 @@ const onFormSubmit = async ({ values, valid }) => {
     npc.affiliations = NPC.value.affiliations;
     npc.goal = NPC.value.goal;
     npc.backstory = NPC.value.backstory;
-    npc.armourClass = NPC.value.armour_class;
+    npc.armourClass = parseInt(NPC.value.armour_class, 10);
     npc.languages = NPC.value.languages;
     npc.savingThrows = NPC.value.saving_throws;
     npc.initiative = NPC.value.initiative;
     npc.speed = NPC.value.speed;
-    npc.hitPoints = NPC.value.hitPoints;
-    npc.hitDice = NPC.value.hitDice;
+    npc.hitPoints = NPC.value.hit_points;
+    npc.hitDice = NPC.value.hit_dice;
     npc.attr = NPC.value.attr;
+
+    NPC.value.age = parseInt(NPC.value.age, 10);
+    NPC.value.level = parseInt(NPC.value.level, 10);
+    NPC.value.armour_class = parseInt(NPC.value.armour_class, 10);
+    NPC.value.attr = [JSON.stringify(NPC.value.attr)];
+
+    console.log(NPC.value);
 
     if (status.value === 'success') {
       loading.value = false;
     }
+
+    const promise = database.createDocument(
+      config.public.databaseID,
+      config.public.npcCollectionID,
+      ID.unique(),
+      NPC.value
+    );
+
+    promise.then(function (response) {
+        console.log(response);
+    }, function (error) {
+        console.log(error);
+    });
   }
 };
 
@@ -303,7 +325,7 @@ const proeficiency = (level: number): string => {
 </style>
 
 <template>
-  <Panel header="Generate NPC" class="w-full shadow-sm" toggleable :collapsed="panelColapsed">
+  <Panel :header="$t('generate.npcs.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed">
     <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit" class="flex flex-col gap-4 w-full">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
         <div class="flex flex-col gap-1">
@@ -553,7 +575,7 @@ const proeficiency = (level: number): string => {
                 <div class="text-xs font-medium text-surface-500 dark:text-surface-300">{{ $t('common.name') }}</div>
                 <div class="text-base font-semibold text-surface-900 dark:text-surface-0">
                   <Skeleton v-if="loading" width="150px" />
-                  <span v-else>{{ npc.name }}</span>
+                  <span v-else>{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></span>
                 </div>
                 <div class="text-xs font-light text-surface-900 dark:text-surface-0">
                   <Skeleton v-if="loading" height="12px" width="50px" class="mt-1" />
@@ -611,13 +633,22 @@ const proeficiency = (level: number): string => {
                 </div>
                 <span class="font-semibold">{{ $t('common.bonus') }}</span>
               </section>
-              <section class="h-[89px] w-[94px] walking_card p-2 flex flex-col justify-center items-center uppercase">
-                <span class="text-[10px] font-light">{{ $t('common.walking') }}</span>
-                <div class="my-1 text-sm">
+              <section class="h-[89px] w-[94px] walking_card p-2 flex flex-col justify-center items-center">
+                <span class="text-[10px] font-light uppercase">{{ $t('common.walking') }}</span>
+                <div class="my-2 text-sm">
                   <Skeleton v-if="loading" height="30px" width="30px" />
                   <span v-else>{{ npc.speed }}</span>
                 </div>
-                <span class="text-[10px] font-semibold">{{ $t('common.speed') }}</span>
+                <span class="text-[10px] font-semibold uppercase">{{ $t('common.speed') }}</span>
+              </section>
+              <section class="flex flex-col content-start items-center gap-0">
+                <span class="text-[10px] uppercase font-bold" style="text-shadow: 0.0625rem 0.0625rem 0 #ececec, -0.0625rem -0.0625rem 0 #ececec, -0.0625rem 0.0625rem 0 #ececec, 0.0625rem -0.0625rem 0 #ececec;">{{ $t('common.initiative') }}</span>
+                <div class="h-[60px] w-[80px] initiative_card p-2 flex flex-col justify-center items-center">
+                  <div class="my-2 text-3xl border border-gray-400 dark:border-gray-300 rounded w-[80%] text-center">
+                    <Skeleton v-if="loading" height="30px" width="30px" />
+                    <span v-else>{{ npc.initiative }}</span>
+                  </div>
+                </div>
               </section>
               <section class="h-[89px] w-[300px] hp_card py-2 px-4">
                 <div class="flex flex-row justify-between items-center">
@@ -646,22 +677,22 @@ const proeficiency = (level: number): string => {
                 </div>
               </section>
               <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
-                
+                ...
               </section>
             </div>
           </div>
-          <div class="inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
-            <div v-if="loading" class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded mt-4">
+          <div class="flex justify-center items-center inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
+            <div v-if="loading" class="bg-white dark:bg-gray-900 p-6 shadow rounded mt-4">
               <div class="flex flex-col items-center justify-center">
                 <ProgressSpinner />
                 <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ $t('common.loading') }}</div>
               </div>
             </div>
-            <div v-else class="w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden">
+            <div v-else class="grid grid-cols-1 w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden content-between">
               <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
                 <div>
-                  <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }}</h2>
-                  <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${npc.sexOrientation}` }}</small>
+                  <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></h2>
+                  <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${$t(`sex_orientation.${npc.sexOrientation}`)}` }}</small>
                 </div>
                 <div class="flex flex-col">
                   <small class="text-gray-50">{{ $t(`races.${npc.race}`) }}</small>
@@ -669,7 +700,7 @@ const proeficiency = (level: number): string => {
                   <small class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
                 </div>
               </div>
-              <div class="body p-4">
+              <div class="body px-4">
                 <table class="table-auto w-full border-separate mb-2">
                   <tbody>
                     <tr class="border-b border-gray-300">
@@ -682,7 +713,7 @@ const proeficiency = (level: number): string => {
                     </tr>
                     <tr class="">
                       <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
-                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }} m</td>
+                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -727,6 +758,14 @@ const proeficiency = (level: number): string => {
                   </div>
                   <div class="text-justify text-xs p-2">
                     <p>{{ npc.appearance_ }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="footer w-full h-7 bg-gray-200 p-2">
+                <div class="flex flex-row justify-between items-center">
+                  <div class="flex flex-row gap-2">
+                  </div>
+                  <div class="flex flex-row gap-2">
                   </div>
                 </div>
               </div>

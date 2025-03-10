@@ -131,3 +131,7 @@ body {
 .armor_class_card {
   background: url('@/assets/images/bg_class_armor.svg') no-repeat center;
 }
+
+.initiative_card {
+  background: url('@/assets/images/bg_iniciative.svg') no-repeat center;
+}
