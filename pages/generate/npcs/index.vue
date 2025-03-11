@@ -25,7 +25,7 @@ const npc = reactive({
   languages: 'Comum, Elfo',
   savingThrows: 'Força, Destreza',
   armourClass: 15,
-  initiative: '2',
+  initiative: '+2',
   speed: "30 ft (9 m)",
   hitPoints: 12,
   hitDice: '1d10',
@@ -632,188 +632,163 @@ const proeficiency = (level: number): string => {
           <span v-else>{{ $t('generate.npcs.description') }}</span>
         </div>
         <div class="flex flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2 border-r border-gray-400 dark:border-gray-300">
-            <section class="info mb-2 w-full lg:w-[340px] h-20 px-4 py-2 flex flex-row justify-between">
-              <div class="w-auto">
-                <div class="text-xs font-medium text-surface-500 dark:text-surface-300">{{ $t('common.name') }}</div>
-                <div class="text-base font-semibold text-surface-900 dark:text-surface-0">
-                  <Skeleton v-if="loading" width="150px" />
-                  <span v-else>{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></span>
-                </div>
-                <div class="text-xs font-light text-surface-900 dark:text-surface-0">
-                  <Skeleton v-if="loading" height="12px" width="50px" class="mt-1" />
-                  <span v-else>{{ `${npc.age} ${$t('common.years')}` }}</span>
-                </div>
-              </div>
-              <div class="">
-                <div class="text-sm font-light text-surface-900 dark:text-surface-0">
-                  <Skeleton v-if="loading" width="100px" class="mb-1" />
-                  <span v-else>{{ $t(`races.${npc.race}`) }}</span>
-                </div>
-                <div class="text-sm font-medium text-surface-900 dark:text-surface-0">
-                  <Skeleton v-if="loading" width="100px" class="mb-1" />
-                  <span v-else>{{ $t(`classes.${npc.classes}`) }}</span>
-                </div>
-                <div class="text-sm font-medium text-surface-900 dark:text-surface-0">
-                  <Skeleton v-if="loading" width="100px" />
-                  <span v-else>{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</span>
-                </div>
-              </div>
-            </section>
-            <div class="flex flex-row flex-wrap justify-start mb-2 gap-2">
-              <section class="w-auto flex flex-row gap-2 mb-1">
-                <div v-for="attr in npc.attr" class="ability_card h-[95px] w-[81px]">
-                  <div class="px-3 py-1">
-                    <div class="flex items-center justify-center my-1">
-                      <span v-tooltip.top="attr.short" class="uppercase text-[9px] font-semibold text-gray-500">{{ $t(attr.title) }}</span>
-                    </div>
-                    <div class="flex items-center justify-center w-full rounded border border-gray-400 dark:border-gray-300 mb-1 h-8">
-                      <Skeleton v-if="loading" width="25px" />
-                      <span v-else class="text-xl">{{ attr.bonus }}</span>
-                    </div>
-                    <div class="flex items-center justify-center pt-1">
-                      <Skeleton v-if="loading" width="15px" class="mt-1" />
-                      <span v-else>{{ attr.value }}</span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section class="h-[95px] w-[81px] armor_class_card p-2 flex flex-col justify-center items-center uppercase">
-                <span class="text-[8px] relative top-1 -mt-2 font-semibold text-gray-500">{{ $t('common.armor_i') }}</span>
-                <div class="text-2xl">
-                  <Skeleton v-if="loading" height="25px" width="25px" class="my-1" />
-                  <span v-else>{{ npc.armourClass }}</span>
-                </div>
-                <span class="text-[8px] relative -mt-1 font-semibold text-gray-500">{{ $t('common.class_i') }}</span>
-              </section>
-              <section class="h-[89px] w-[94px] proeficiency_card p-2 flex flex-col justify-center items-center uppercase">
-                <span class="text-[10px] font-semibold">{{ $t('common.proeficiency') }}</span>
-                <div class="my-1 text-2xl">
-                  <Skeleton v-if="loading" height="30px" width="30px" />
-                  <div v-else>
-                    <span class="text-gray-500">+</span>{{ proeficiency(npc.level) }}
-                  </div>
-                </div>
-                <span class="font-semibold">{{ $t('common.bonus') }}</span>
-              </section>
-              <section class="h-[89px] w-[94px] walking_card p-2 flex flex-col justify-center items-center">
-                <span class="text-[10px] font-light uppercase">{{ $t('common.walking') }}</span>
-                <div class="my-2 text-sm">
-                  <Skeleton v-if="loading" height="30px" width="30px" />
-                  <span v-else>{{ npc.speed }}</span>
-                </div>
-                <span class="text-[10px] font-semibold uppercase">{{ $t('common.speed') }}</span>
-              </section>
-              <section class="flex flex-col content-start items-center gap-0">
-                <span class="text-[10px] uppercase font-bold" style="text-shadow: 0.0625rem 0.0625rem 0 #ececec, -0.0625rem -0.0625rem 0 #ececec, -0.0625rem 0.0625rem 0 #ececec, 0.0625rem -0.0625rem 0 #ececec;">{{ $t('common.initiative') }}</span>
-                <div class="h-[60px] w-[80px] initiative_card p-2 flex flex-col justify-center items-center">
-                  <div class="my-2 text-3xl border border-gray-400 dark:border-gray-300 rounded w-[80%] text-center">
-                    <Skeleton v-if="loading" height="30px" width="30px" />
-                    <span v-else>{{ npc.initiative }}</span>
-                  </div>
-                </div>
-              </section>
-              <section class="h-[89px] w-[300px] hp_card py-2 px-4">
-                <div class="flex flex-row justify-between items-center">
-                  <span class="text-[10px] font-light">{{ $t('common.hit_points') }}</span>
-                  <span class="text-[10px] font-light">{{ $t('common.hit_dice') }}</span>
-                </div>
-                <div class="flex flex-row justify-between items-center">
-                  <Skeleton v-if="loading" height="25px" width="50px" />
-                  <span v-else class="text-2xl font-semibold">{{ npc.hitPoints }}</span>
-                  <Skeleton v-if="loading" height="25px" width="75px" />
-                  <span v-else class="text-2xl font-semibold">{{ npc.hitDice }}</span>
-                </div>
-              </section>
-            </div>
-            <div class="flex flex-row justify-start gap-4 overflow-scroll">
-              <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
-                <div class="mb-6 text-justify">
-                  <h2 class="text-2xl mb-2">{{ $t('common.description') }}</h2>
-                  <Skeleton v-if="loading" height="150px" width="100%" />
-                  <p v-else class="font-light">{{ npc.description }}</p>
-                </div>
-                <div class="text-jusitfy">
-                  <h2 class="text-2xl mb-2">{{ $t('appearances.title') }}</h2>
-                  <Skeleton v-if="loading" height="150px" width="100%" />
-                  <p v-else class="font-light">{{ npc.appearance_ }}</p>
-                </div>
-              </section>
-              <section class="basic_info_card w-[475px] h-[500px] flex flex-col justify-start items-stretch gap-2 py-2 px-4">
-                ...
-              </section>
-            </div>
-          </div>
-          <div class="flex justify-center items-center inset-shadow-sm w-full lg:w-1/2 h-auto rounded-r inset-shadow-gray-500 striped-bg">
-            <div v-if="loading" class="bg-white dark:bg-gray-900 p-6 shadow rounded mt-4">
-              <div class="flex flex-col items-center justify-center">
-                <ProgressSpinner />
-                <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ $t('common.loading') }}</div>
-              </div>
-            </div>
-            <div v-else class="grid grid-cols-1 w-full lg:w-[800px] h-auto lg:h-[800px] bg-white shadow rounded overflow-hidden content-between">
-              <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
+          <div class="flex justify-center items-center inset-shadow-sm w-full h-auto rounded inset-shadow-gray-500 striped-bg">
+            <div class="grid grid-cols-1 w-full lg:w-[900px] h-auto lg:h-auto bg-white shadow rounded overflow-hidden content-between">
+              <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center mb-1">
                 <div>
-                  <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></h2>
-                  <small class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${$t(`sex_orientation.${npc.sexOrientation}`)}` }}</small>
+                  <Skeleton v-if="loading" width="150px" height="35px" />
+                  <h2 v-else class="text-3xl text-gray-50 mb-0">{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></h2>
+                  <Skeleton v-if="loading" width="100px" height="15px" class="mt-1" />
+                  <small v-else class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${$t(`sex_orientation.${npc.sexOrientation}`)}` }}</small>
                 </div>
                 <div class="flex flex-col">
-                  <small class="text-gray-50">{{ $t(`races.${npc.race}`) }}</small>
-                  <small class="text-gray-50">{{ $t(`classes.${npc.classes}`) }}</small>
-                  <small class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
+                  <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
+                  <small v-else class="text-gray-50">{{ $t(`races.${npc.race}`) }}</small>
+                  <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
+                  <small v-else class="text-gray-50">{{ $t(`classes.${npc.classes}`) }}</small>
+                  <Skeleton v-if="loading" width="100px" height="15px" />
+                  <small v-else class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
                 </div>
               </div>
-              <div class="body px-2 grid grid-cols-2 gap-2">
-                <div>
-                  <table class="table-auto w-full border-separate mb-2">
-                    <tbody>
-                      <tr class="border-b border-gray-300">
-                        <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
-                        <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
-                      </tr>
-                      <tr class="border-b border-gray-300">
-                        <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
-                        <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
-                      </tr>
-                      <tr class="">
-                        <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
-                        <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="attrs flex fles-row justify-between gap-1 mb-2">
-                    <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
-                      <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
-                      <div>
-                        <div class="flex flex-row items-center justify-center gap-1">
-                          <span class="font-light">{{ attr.value }}</span>
-                          <span class="font-semibold text-gray-500"> ({{ attr.bonus }})</span>
+              <div class="body px-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <table class="table-auto w-full border-separate mb-2">
+                      <tbody>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
+                          <td class="bg-gray-100 p-1 rounded-tr">
+                            <Skeleton v-if="loading" width="15px" height="15px" />
+                            <span v-else>{{ npc.armourClass }}</span>
+                          </td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
+                          <td class="bg-gray-100 p-1">
+                            <Skeleton v-if="loading" width="50px" height="15px" />
+                            <span v-else>{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></span>
+                          </td>
+                        </tr>
+                        <tr class="">
+                          <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-br">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.speed }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="attrs flex fles-row justify-between gap-1 mb-2">
+                      <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
+                        <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
+                        <div>
+                          <div class="flex flex-row items-center justify-center gap-1">
+                            <Skeleton v-if="loading" width="35px" height="20px" />
+                            <div v-else>
+                              <span class="font-light">{{ attr.value }}</span>
+                              <span class="font-semibold text-gray-500"> ({{ attr.bonus }})</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <table class="w-full border-separate mb-2">
+                      <tbody>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-tr">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.savingThrows }}</span>
+                          </td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
+                          <td class="bg-gray-100 p-1">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.languages }}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.difficult') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-br">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.difficult }}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-br">
+                            <Skeleton v-if="loading" width="15px" height="15px" />
+                            <span v-else>{{ npc.initiative }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="w-full border-separate mb-2">
+                      <tbody>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('items.weapon') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-tr">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.items.weapon }}</span>
+                          </td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right">{{ $t('items.armor') }}</td>
+                          <td class="bg-gray-100 p-1">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.items.armor }}</span>
+                          </td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 text-right">{{ $t('items.other') }}</td>
+                          <td class="bg-gray-100 p-1">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.items.other }}</span>
+                          </td>
+                        </tr>
+                        <tr class="border-b border-gray-300">
+                          <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('items.potions') }}</td>
+                          <td class="bg-gray-100 p-1 rounded-br">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ npc.potions }}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                    <div>
+                    <table class="w-full border-separate mb-2">
+                      <thead>
+                        <tr>
+                          <th class="bg-gray-200 p-1 text-center rounded-t">{{ $t('spells.title') }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-if="loading"
+                          class="border-b border-gray-300">
+                          <td class="bg-gray-100 p-1 rounded-br">
+                            <Skeleton width="80px" height="15px" />
+                          </td>
+                        </tr>
+                        <tr v-for="spell, index in npc.spells" class="border-b border-gray-300">
+                          <td class="bg-gray-100 p-1" :class="{ 'rounded-br': index === npc.spells.length - 1 }">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>{{ spell }}</span>
+                          </td>
+                        </tr>                        
+                      </tbody>
+                    </table>
                   </div>
-                  <table class="w-full border-separate mb-2">
-                    <tbody>
-                      <tr class="border-b border-gray-300">
-                        <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
-                        <td class="bg-gray-100 p-1 rounded-tr">{{ npc.savingThrows }}</td>
-                      </tr>
-                      <tr class="border-b border-gray-300">
-                        <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
-                        <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
-                      </tr>
-                      <tr>
-                        <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
-                        <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                </div>
+                <div>
                   <div class="rounded bg-gray-100 overflow-hidden mb-2">
                     <div class="bg-gray-200 py-1 px-2 rounded-tl">
                       <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
                     </div>
                     <div class="text-justify text-xs p-2">
-                      <p>{{ npc.description }}</p>
+                      <Skeleton v-if="loading" width="100%" height="100px" />
+                      <p v-else>{{ npc.description }}</p>
                     </div>
                   </div>
                   <div class="rounded bg-gray-100 overflow-hidden mb-2">
@@ -821,12 +796,19 @@ const proeficiency = (level: number): string => {
                       <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
                     </div>
                     <div class="text-justify text-xs p-2">
-                      <p>{{ npc.appearance_ }}</p>
+                      <Skeleton v-if="loading" width="100%" height="100px" />
+                      <p v-else>{{ npc.appearance_ }}</p>
                     </div>
                   </div>
-                </div>
-                <div>
-                  a
+                  <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                    <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                      <h2 class="font-semibold text-base">{{ $t('secret_plot.title') }}</h2>
+                    </div>
+                    <div class="text-justify text-xs p-2">
+                      <Skeleton v-if="loading" width="100%" height="100px" />
+                      <p v-else>{{ npc.secretPlot }}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="footer w-full h-7 bg-gray-200 p-2">
