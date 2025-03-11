@@ -93,6 +93,7 @@
   },
   "age": {
     "title": "Idade",
+    "unknown": "Desconhecido"
   },
   "level": {
     "title": "Nível",
@@ -270,5 +271,20 @@
     "reformed_criminal": "Criminoso reformado",
     "nomad": "Nômade",
     "academic": "Acadêmico"
+  },
+  "enemy": {
+    "title": "Inimigo",
+  },
+  "difficulty": {
+    "title": "Dificuldade",
+    "very_easy": "Muito fácil",
+    "easy": "Fácil",
+    "medium": "Médio",
+    "hard": "Difícil",
+    "very_hard": "Muito difícil",
+    "saint": "Santo",
+    "demon": "Demônio",
+    "god": "Deus",
+    "impossible": "Impossível"
   }
 }

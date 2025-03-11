@@ -9,6 +9,8 @@ interface NPCType {
   background: string;
   backstory: string;
   class: string;
+  difficult: string;
+  enemy: boolean;
   gender: string;
   goal: string;
   job: string;
@@ -26,19 +28,25 @@ const generateNPC = (
   background: string,
   backstory: string,
   class_: string, // Changed class_ to class_
+  difficult: string,
+  enemy: boolean,
   gender: string,
   goal: string,
   job: string,
   level: number | string,
   personality: string,
   race: string,
-  sex_orientation: string
+  sex_orientation: string,
 ) => {
   if (affiliation === 'random') {
     affiliation = random.affiliation().value;
   }
   if (age === 'random') {
     age = random.age().value;
+
+    if (typeof age === 'number' && age >= 100) {
+      age = '100+';
+    }
   }
   if (alignment === 'random') {
     alignment = random.alignment().value;
@@ -54,6 +62,9 @@ const generateNPC = (
   }
   if (class_ === 'random') {
     class_ = random.class_().value;
+  }
+  if (difficult === 'random') {
+    difficult = random.difficult().value;
   }
   if (gender === 'random') {
     gender = random.gender_().value;
@@ -85,6 +96,8 @@ const generateNPC = (
     background: background,
     backstory: backstory,
     class: class_, // Use class_ here.
+    difficult: difficult,
+    enemy: enemy,
     gender: gender,
     goal: goal,
     job: job,
@@ -94,8 +107,14 @@ const generateNPC = (
     sex_orientation: sex_orientation,
   };
 
+  let prompt = `Create an NPC with the following traits: ${npcToReadableString(npc)}`;
+
+  if (enemy) {
+    prompt = `Create an Enemy NPC with the following traits: ${npcToReadableString(npc)}`;
+  }
+
   const values = {
-    prompt: `Create an NPC with the following traits: ${npcToReadableString(npc)}`,
+    prompt: prompt,
     attr: npc,
   };
 
@@ -117,7 +136,8 @@ function npcToReadableString(npc: NPCType): string {
     Level: ${npc.level},
     Personality: ${npc.personality},
     Race: ${npc.race},
-    Sex Orientation: ${npc.sex_orientation}
+    Sex Orientation: ${npc.sex_orientation},
+    Difficult: ${npc.difficult},
   `;
 }
 

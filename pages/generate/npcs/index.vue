@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { value } from '@primeuix/themes/aura/knob';
+
 const { database, ID } = useAppwrite();
 const config = useRuntimeConfig();
 
@@ -67,7 +69,12 @@ const npc = reactive({
   },
   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id. Sed mattis lacus sit amet ligula vehicula consequat. Nunc sit amet consectetur nisi. Integer ultricies nunc ante, eget interdum sem maximus ut.',
   appearance_: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.',
-  created_at: ''
+  created_at: '',
+  enemy: false,
+  secretPlot: '',
+  items: [],
+  spells: [],
+  difficult: ''
 });
 const { data: age, status: statusAge, error: errorAge, refresh: refreshAge, clear: clearAge } = await useAsyncData(
   'age',
@@ -125,6 +132,15 @@ const { data: backstories, status: statusBackstories, error: errorBackstories, r
   'backstories',
   () => $fetch(`${config.public.url}tables/backstories.json`)
 );
+const { data: difficulty, status: statusDifficulty, error: errorDifficulty, refresh: refreshDifficulty, clear: clearDifficulty } = await useAsyncData(
+  'difficulty',
+  () => $fetch(`${config.public.url}tables/difficulty.json`)
+);
+const enemy = ref([
+  { label: 'common.no', value: false },
+  { label: 'common.yes', value: true }
+]);
+
 const initialValues = reactive({
   age: age.value[0],
   race: races.value[0],
@@ -139,7 +155,9 @@ const initialValues = reactive({
   personality: personalities.value[0],
   affiliation: affiliations.value[0],
   goal: goals.value[0],
-  backstory: backstories.value[0]
+  backstory: backstories.value[0],
+  difficult: difficulty.value[0],
+  enemy: enemy.value[0],
 });
 const panelColapsed = ref(false);
 // const panelColapsed = ref(true);
@@ -203,6 +221,10 @@ const resolver = ({ values }) => {
     errors.backstory = [{ message: 'Backstory is required.' }];
   }
 
+  if (!values.difficult) {
+    errors.difficult = [{ message: 'Difficulties is required.' }];
+  }
+
   return {
       values, // (Optional) Used to pass current form values to submit event.
       errors
@@ -251,13 +273,22 @@ const onFormSubmit = async ({ values, valid }) => {
     npc.hitPoints = NPC.value.hit_points;
     npc.hitDice = NPC.value.hit_dice;
     npc.attr = NPC.value.attr;
+    npc.enemy = NPC.value.enemy;
+    npc.secretPlot = NPC.value.secret_plot ? NPC.value.secret_plot : '';
+    npc.items = NPC.value.items ? NPC.value.items : [];
+    npc.spells = NPC.value.spells ? NPC.value.spells : [];
+    npc.difficult = NPC.value.difficult ? NPC.value.difficult : [];
 
     NPC.value.age = parseInt(NPC.value.age, 10);
     NPC.value.level = parseInt(NPC.value.level, 10);
     NPC.value.armour_class = parseInt(NPC.value.armour_class, 10);
     NPC.value.attr = [JSON.stringify(NPC.value.attr)];
-
-    console.log(NPC.value);
+    if (NPC.value.spells) {
+      NPC.value.spells = [JSON.stringify(NPC.value.spells)];
+    }
+    if (NPC.value.items) {
+      NPC.value.items = [JSON.stringify(NPC.value.items)];
+    }
 
     if (status.value === 'success') {
       loading.value = false;
@@ -552,6 +583,38 @@ const proeficiency = (level: number): string => {
           </Select>
           <Message v-if="$form.backstory?.invalid" severity="error" size="small" variant="simple">{{ $form.backstory.error?.message }}</Message>
         </div>
+        <div class="flex flex-col gap-1">
+          <label for="enemy" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('enemy.title') }}</label>
+          <Select :options="enemy" optionLabel="label" name="enemy" type="text" placeholder="enemy" fluid>
+            <template #value="{ value }">
+              <div class="flex flex-row items-center gap-2">
+                <span>{{ $t(value.label) }}</span>
+              </div>
+            </template>
+            <template #option="{ option }">
+              <div class="flex flex-row items-center gap-2">
+                <span>{{ $t(option.label) }}</span>
+              </div>
+            </template>
+          </Select>
+          <Message v-if="$form.enemy?.invalid" severity="error" size="small" variant="simple">{{ $form.enemy.error?.message }}</Message>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="difficulty" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('difficulty.title') }}</label>
+          <Select :options="difficulty" optionLabel="label" name="difficult" type="text" placeholder="difficult" fluid>
+            <template #value="{ value }">
+              <div class="flex flex-row items-center gap-2">
+                <span>{{ $t(value.label) }}</span>
+              </div>
+            </template>
+            <template #option="{ option }">
+              <div class="flex flex-row items-center gap-2">
+                <span>{{ $t(option.label) }}</span>
+              </div>
+            </template>
+          </Select>
+          <Message v-if="$form.difficulty?.invalid" severity="error" size="small" variant="simple">{{ $form.difficulty.error?.message }}</Message>
+        </div>
       </div>
       <Button type="submit" severity="secondary" label="Submit" />
     </Form>
@@ -688,7 +751,7 @@ const proeficiency = (level: number): string => {
                 <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ $t('common.loading') }}</div>
               </div>
             </div>
-            <div v-else class="grid grid-cols-1 w-full lg:w-[450px] h-auto lg:h-[750px] bg-white shadow rounded overflow-hidden content-between">
+            <div v-else class="grid grid-cols-1 w-full lg:w-[800px] h-auto lg:h-[800px] bg-white shadow rounded overflow-hidden content-between">
               <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center">
                 <div>
                   <h2 class="text-3xl text-gray-50 mb-0">{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></h2>
@@ -700,65 +763,70 @@ const proeficiency = (level: number): string => {
                   <small class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
                 </div>
               </div>
-              <div class="body px-4">
-                <table class="table-auto w-full border-separate mb-2">
-                  <tbody>
-                    <tr class="border-b border-gray-300">
-                      <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
-                      <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                      <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
-                      <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
-                    </tr>
-                    <tr class="">
-                      <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
-                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="attrs flex fles-row justify-between gap-1 mb-2">
-                  <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
-                    <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
-                    <div>
-                      <div class="flex flex-row items-center justify-center gap-1">
-                        <span class="font-light">{{ attr.value }}</span>
-                        <span class="font-semibold text-gray-500"> ({{ attr.bonus }})</span>
+              <div class="body px-2 grid grid-cols-2 gap-2">
+                <div>
+                  <table class="table-auto w-full border-separate mb-2">
+                    <tbody>
+                      <tr class="border-b border-gray-300">
+                        <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right alegreya">{{ `${$t('common.armor_i')} ${$t('common.class_i')}` }}</td>
+                        <td class="bg-gray-100 p-1 rounded-tr">{{ npc.armourClass }}</td>
+                      </tr>
+                      <tr class="border-b border-gray-300">
+                        <td class="bg-gray-200 p-1 text-right alegreya">{{ $t('common.hit_points') }}</td>
+                        <td class="bg-gray-100 p-1">{{ npc.hitPoints }} <small class="text-xs">{{ npc.hitDice }}</small></td>
+                      </tr>
+                      <tr class="">
+                        <td class="bg-gray-200 p-1 rounded-bl text-right alegreya">{{ $t('common.speed') }}</td>
+                        <td class="bg-gray-100 p-1 rounded-br">{{ npc.speed }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="attrs flex fles-row justify-between gap-1 mb-2">
+                    <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
+                      <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
+                      <div>
+                        <div class="flex flex-row items-center justify-center gap-1">
+                          <span class="font-light">{{ attr.value }}</span>
+                          <span class="font-semibold text-gray-500"> ({{ attr.bonus }})</span>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <table class="w-full border-separate mb-2">
+                    <tbody>
+                      <tr class="border-b border-gray-300">
+                        <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
+                        <td class="bg-gray-100 p-1 rounded-tr">{{ npc.savingThrows }}</td>
+                      </tr>
+                      <tr class="border-b border-gray-300">
+                        <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
+                        <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
+                      </tr>
+                      <tr>
+                        <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
+                        <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                    <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                      <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
+                    </div>
+                    <div class="text-justify text-xs p-2">
+                      <p>{{ npc.description }}</p>
+                    </div>
+                  </div>
+                  <div class="rounded bg-gray-100 overflow-hidden mb-2">
+                    <div class="bg-gray-200 py-1 px-2 rounded-tl">
+                      <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
+                    </div>
+                    <div class="text-justify text-xs p-2">
+                      <p>{{ npc.appearance_ }}</p>
+                    </div>
+                  </div>
                 </div>
-                <table class="w-full border-separate mb-2">
-                  <tbody>
-                    <tr class="border-b border-gray-300">
-                      <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
-                      <td class="bg-gray-100 p-1 rounded-tr">{{ npc.savingThrows }}</td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                      <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
-                      <td class="bg-gray-100 p-1">{{ npc.languages }}</td>
-                    </tr>
-                    <tr>
-                      <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.initiative') }}</td>
-                      <td class="bg-gray-100 p-1 rounded-br">{{ npc.initiative }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="rounded bg-gray-100 overflow-hidden mb-2">
-                  <div class="bg-gray-200 py-1 px-2 rounded-tl">
-                    <h2 class="font-semibold text-base">{{ $t('common.description') }}</h2>
-                  </div>
-                  <div class="text-justify text-xs p-2">
-                    <p>{{ npc.description }}</p>
-                  </div>
-                </div>
-                <div class="rounded bg-gray-100 overflow-hidden mb-2">
-                  <div class="bg-gray-200 py-1 px-2 rounded-tl">
-                    <h2 class="font-semibold text-base">{{ $t('appearances.title') }}</h2>
-                  </div>
-                  <div class="text-justify text-xs p-2">
-                    <p>{{ npc.appearance_ }}</p>
-                  </div>
+                <div>
+                  a
                 </div>
               </div>
               <div class="footer w-full h-7 bg-gray-200 p-2">

@@ -1,5 +1,10 @@
 [
   { "label": "common.random", "value": "random" },
+  { "label": "age.unknown", "value": -1 },
+  { "label": 1, "value": 1 },
+  { "label": 2, "value": 2 },
+  { "label": 3, "value": 3 },
+  { "label": 4, "value": 4 },
   { "label": 5, "value": 5},
   { "label": 6, "value": 6 },
   { "label": 7, "value": 7 },
@@ -71,5 +76,14 @@
   { "label": 97, "value": 97 },
   { "label": 98, "value": 98 },
   { "label": 99, "value": 99 },
-  { "label": 100, "value": 100 }
+  { "label": 100, "value": 100 },
+  { "label": 200, "value": 200 },
+  { "label": 300, "value": 300 },
+  { "label": 500, "value": 500 },
+  { "label": 1000, "value": 1000 },
+  { "label": 2000, "value": 2000 },
+  { "label": 3000, "value": 3000 },
+  { "label": 5000, "value": 5000 },
+  { "label": 6000, "value": 6000 },
+  { "label": 9999, "value": 9999 }
 ]

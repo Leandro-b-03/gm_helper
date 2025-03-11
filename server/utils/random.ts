@@ -5,6 +5,7 @@ import appearances from '@/public/tables/appearances.json';
 import backgrounds from '@/public/tables/backgrounds.json';
 import backstories from '@/public/tables/backstories.json';
 import classes from '@/public/tables/classes.json';
+import difficulty from '@/public/tables/difficulty.json';
 import gender from '@/public/tables/gender.json';
 import goals from '@/public/tables/goals.json';
 import jobs from '@/public/tables/jobs.json';
@@ -21,13 +22,14 @@ const random = {
   background: () => backgrounds[Math.floor(Math.random() * (backgrounds.length - 1)) + 1],
   backstory: () => backstories[Math.floor(Math.random() * (backstories.length - 1)) + 1],
   class_: () => classes[Math.floor(Math.random() * (classes.length - 1)) + 1],
+  difficult: () => difficulty[Math.floor(Math.random() * (difficulty.length - 1)) + 1],
   gender_: () => gender[Math.floor(Math.random() * (gender.length - 1)) + 1],
   goal: () => goals[Math.floor(Math.random() * (goals.length - 1)) + 1],
   job: () => jobs[Math.floor(Math.random() * (jobs.length - 1)) + 1],
   level: () => levels[Math.floor(Math.random() * (levels.length - 1)) + 1],
   personality: () => personalities[Math.floor(Math.random() * (personalities.length - 1)) + 1],
   race: () => races[Math.floor(Math.random() * (races.length - 1)) + 1],
-  sex_orientation: () => sex_orientations[Math.floor(Math.random() * (sex_orientations.length - 1)) + 1]
+  sex_orientation: () => sex_orientations[Math.floor(Math.random() * (sex_orientations.length - 1)) + 1],
 };
 
 export default random;

@@ -17,11 +17,6 @@ const items = ref([
       label: 'generate.items.title',
       icon: 'pi pi-box',
       command: () => router.push('/generate/items')
-    },
-    {
-      label: 'generate.enemies.title',
-      icon: 'pi pi-user-minus',
-      command: () => router.push('/generate/enemies')
     }
   ]
 },

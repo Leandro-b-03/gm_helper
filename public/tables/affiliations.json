@@ -1,5 +1,6 @@
 [
   { "label": "common.random", "value": "random" },
+  { "label": "common.not_affiliate", "value": "not_affiliate" },
   { "label": "affiliations.dnd2014.harpers", "value": "harpers" },
   { "label": "affiliations.dnd2014.zhentarim", "value": "zhentarim" },
   { "label": "affiliations.dnd2014.order_of_the_gauntlet", "value": "order_of_the_gauntlet" },

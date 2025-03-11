@@ -1,0 +1,12 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "difficulty.very_easy", "value": "very_easy" },
+  { "label": "difficulty.easy", "value": "easy" },
+  { "label": "difficulty.medium", "value": "medium" },
+  { "label": "difficulty.hard", "value": "hard" },
+  { "label": "difficulty.very_hard", "value": "very_hard" },
+  { "label": "difficulty.saint", "value": "saint" },
+  { "label": "difficulty.demon", "value": "demon" },
+  { "label": "difficulty.god", "value": "god" },
+  { "label": "difficulty.impossible", "value": "impossible" }
+]
