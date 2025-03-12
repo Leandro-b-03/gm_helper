@@ -39,7 +39,8 @@
     "language": "Idioma",
     "languages": "Idiomas",
     "initiative": "Iniciativa",
-    "hit_dice": "Dado de vida"
+    "hit_dice": "Dado de vida",
+    "difficult": "Dificuldade"
   },
   "attr": {
     "str": "Força",
@@ -286,5 +287,28 @@
     "demon": "Demônio",
     "god": "Deus",
     "impossible": "Impossível"
+  },
+  "secret_plot": {
+    "title": "Trama secreta"
+  },
+  "spells": {
+    "title": "Magias",
+    "cantrips": "Truques",
+    "level_1": "Nível 1",
+    "level_2": "Nível 2",
+    "level_3": "Nível 3",
+    "level_4": "Nível 4",
+    "level_5": "Nível 5",
+    "level_6": "Nível 6",
+    "level_7": "Nível 7",
+    "level_8": "Nível 8",
+    "level_9": "Nível 9"
+  },
+  "items": {
+    "title": "Itens",
+    "weapon": "Arma",
+    "armor": "Armadura",
+    "other": "Outro",
+    "potions": "Poções"
   }
 }

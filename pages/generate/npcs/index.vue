@@ -309,6 +309,11 @@ const onFormSubmit = async ({ values, valid }) => {
   }
 };
 
+const isLastLevel = (levelKey: string): boolean => {
+  const levels = Object.keys(npc.spells);
+  return levelKey === levels[levels.length - 1];
+};
+
 const proeficiency = (level: number): string => {
   // Implement the function logic here
   if (level >= 1 && level <= 4) {
@@ -698,14 +703,18 @@ const proeficiency = (level: number): string => {
                           <td class="bg-gray-200 p-1 text-right rounded-tl w-[40%]">{{ $t('common.saving_throws') }}</td>
                           <td class="bg-gray-100 p-1 rounded-tr">
                             <Skeleton v-if="loading" width="80px" height="15px" />
-                            <span v-else>{{ npc.savingThrows }}</span>
+                            <div v-else>
+                              <Tag v-for="value in npc.savingThrows.split(',')" :key="`saving-${value}`" :value="`${value}`" class="mr-1 !text-xs" severity="info" size="small" />
+                            </div>
                           </td>
                         </tr>
                         <tr class="border-b border-gray-300">
                           <td class="bg-gray-200 p-1 text-right">{{ $t('common.languages') }}</td>
                           <td class="bg-gray-100 p-1">
                             <Skeleton v-if="loading" width="80px" height="15px" />
-                            <span v-else>{{ npc.languages }}</span>
+                            <div v-else>
+                              <Tag v-for="value in npc.languages.split(',')" :key="`saving-${value}`" :value="`${value}`" class="mr-1" severity="info" size="small" />
+                            </div>
                           </td>
                         </tr>
                         <tr>
@@ -756,27 +765,31 @@ const proeficiency = (level: number): string => {
                         </tr>
                       </tbody>
                     </table>
-                    </div>
-                    <div>
+                  </div>
+                  <div>
                     <table class="w-full border-separate mb-2">
                       <thead>
                         <tr>
-                          <th class="bg-gray-200 p-1 text-center rounded-t">{{ $t('spells.title') }}</th>
+                          <th colspan="2" class="bg-gray-200 p-1 text-center rounded-t">{{ $t('spells.title') }}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-if="loading"
-                          class="border-b border-gray-300">
+                        <tr v-if="loading" class="border-b border-gray-300">
                           <td class="bg-gray-100 p-1 rounded-br">
                             <Skeleton width="80px" height="15px" />
                           </td>
                         </tr>
-                        <tr v-for="spell, index in npc.spells" class="border-b border-gray-300">
-                          <td class="bg-gray-100 p-1" :class="{ 'rounded-br': index === npc.spells.length - 1 }">
-                            <Skeleton v-if="loading" width="80px" height="15px" />
-                            <span v-else>{{ spell }}</span>
-                          </td>
-                        </tr>                        
+
+                        <template v-else>
+                          <template v-for="(spells, levelKey) in npc.spells" :key="levelKey">
+                            <tr v-if="spells && spells.length > 0" class="border-b border-gray-300">
+                              <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t(`spells.${levelKey}`) }}</td>
+                              <td class="bg-gray-100 p-1" :class="{ 'rounded-br': isLastLevel(levelKey) }">
+                                <Tag v-for="(spell, index) in spells" :key="`spell-${levelKey}-${index}`" :value="spell" class="mr-1" severity="info" size="small" />
+                              </td>
+                            </tr>
+                          </template>
+                        </template>
                       </tbody>
                     </table>
                   </div>
