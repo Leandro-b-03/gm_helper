@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { value } from '@primeuix/themes/aura/knob';
 
+const { locale } = useNuxtApp().$i18n;
+const router = useRouter();
+const route = useRoute();
+
 const { database, ID } = useAppwrite();
 const config = useRuntimeConfig();
 
@@ -232,6 +236,7 @@ const resolver = ({ values }) => {
 };
 
 const onFormSubmit = async ({ values, valid }) => {
+  console.log('locale', locale);
   panelColapsed.value = true;
   loading.value = true;
   npc.show = true;
@@ -302,9 +307,20 @@ const onFormSubmit = async ({ values, valid }) => {
     );
 
     promise.then(function (response) {
-        console.log(response);
+      console.log('response', response.$id);
+
+      console.log('route', route.params);
+      console.log('router', router);
+      console.log('locale', locale);
+
+      route.params.id = response.$id;
+      console.log('route', route.params);
+      router.push({
+        name: `generate-npc-id___${locale.value}`,
+        params: { id: response.$id },
+      });
     }, function (error) {
-        console.log(error);
+      console.log(error);
     });
   }
 };
@@ -313,6 +329,10 @@ const isLastLevel = (levelKey: string): boolean => {
   const levels = Object.keys(npc.spells);
   return levelKey === levels[levels.length - 1];
 };
+
+onMounted(() => {
+  console.log(JSON.stringify(router.getRoutes()));
+});
 
 const proeficiency = (level: number): string => {
   // Implement the function logic here
@@ -327,7 +347,7 @@ const proeficiency = (level: number): string => {
   } else if (level >= 17 && level <= 20) {
     return '6';
   } else {
-    return 'Invalid level';
+    return '10';
   }
 };
 </script>
@@ -361,6 +381,7 @@ const proeficiency = (level: number): string => {
 </style>
 
 <template>
+  <router-view :key="$route.fullPath"></router-view>
   <Panel :header="$t('generate.npcs.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed">
     <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit" class="flex flex-col gap-4 w-full">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
@@ -644,7 +665,7 @@ const proeficiency = (level: number): string => {
                   <Skeleton v-if="loading" width="150px" height="35px" />
                   <h2 v-else class="text-3xl text-gray-50 mb-0">{{ npc.name }} <i class="text-xs">nv. {{ npc.level }}</i></h2>
                   <Skeleton v-if="loading" width="100px" height="15px" class="mt-1" />
-                  <small v-else class="text-gray-50 relative -t-2">{{ `${npc.age} ${$t('common.years')} / ${$t(`sex_orientation.${npc.sexOrientation}`)}` }}</small>
+                  <small v-else class="text-gray-50 relative -t-2">{{ (npc.age === -1) ? $t('age.unknown') : `${npc.age} ${$t('common.years')}` }} {{ `/ ${$t(`sex_orientation.${npc.sexOrientation}`)}` }}</small>
                 </div>
                 <div class="flex flex-col">
                   <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
@@ -684,7 +705,7 @@ const proeficiency = (level: number): string => {
                       </tbody>
                     </table>
                     <div class="attrs flex fles-row justify-between gap-1 mb-2">
-                      <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded p-2 w-[65px]">
+                      <div v-for="attr in npc.attr" class="flex items-center justify-center flex-col bg-gray-100 rounded px-2 py-1 w-[75px]">
                         <div><h2 class="text-sm font-semibold">{{ attr.short }}</h2></div>
                         <div>
                           <div class="flex flex-row items-center justify-center gap-1">
@@ -704,7 +725,7 @@ const proeficiency = (level: number): string => {
                           <td class="bg-gray-100 p-1 rounded-tr">
                             <Skeleton v-if="loading" width="80px" height="15px" />
                             <div v-else>
-                              <Tag v-for="value in npc.savingThrows.split(',')" :key="`saving-${value}`" :value="`${value}`" class="mr-1 !text-xs" severity="info" size="small" />
+                              <Tag v-for="value in npc.savingThrows.split(',')" :key="`saving-${value}`" :value="`${value}`" class="m-1 !text-xs" severity="info" size="small" />
                             </div>
                           </td>
                         </tr>
@@ -713,7 +734,7 @@ const proeficiency = (level: number): string => {
                           <td class="bg-gray-100 p-1">
                             <Skeleton v-if="loading" width="80px" height="15px" />
                             <div v-else>
-                              <Tag v-for="value in npc.languages.split(',')" :key="`saving-${value}`" :value="`${value}`" class="mr-1" severity="info" size="small" />
+                              <Tag v-for="value in npc.languages.split(',')" :key="`saving-${value}`" :value="`${value}`" class="mr-1" severity="warn" size="small" />
                             </div>
                           </td>
                         </tr>
@@ -721,7 +742,14 @@ const proeficiency = (level: number): string => {
                           <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t('common.difficult') }}</td>
                           <td class="bg-gray-100 p-1 rounded-br">
                             <Skeleton v-if="loading" width="80px" height="15px" />
-                            <span v-else>{{ npc.difficult }}</span>
+                            <span v-else>{{ $t(`difficulty.${npc.difficult}`) }}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bg-gray-200 p-1 text-right">{{ $t('common.proeficiency') }}</td>
+                          <td class="bg-gray-100 p-1">
+                            <Skeleton v-if="loading" width="80px" height="15px" />
+                            <span v-else>+{{ proeficiency(npc.level) }}</span>
                           </td>
                         </tr>
                         <tr>
@@ -785,7 +813,7 @@ const proeficiency = (level: number): string => {
                             <tr v-if="spells && spells.length > 0" class="border-b border-gray-300">
                               <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t(`spells.${levelKey}`) }}</td>
                               <td class="bg-gray-100 p-1" :class="{ 'rounded-br': isLastLevel(levelKey) }">
-                                <Tag v-for="(spell, index) in spells" :key="`spell-${levelKey}-${index}`" :value="spell" class="mr-1" severity="info" size="small" />
+                                <Tag v-for="(spell, index) in spells" :key="`spell-${levelKey}-${index}`" :value="spell" class="m-1" severity="success" size="small" />
                               </td>
                             </tr>
                           </template>

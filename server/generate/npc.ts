@@ -44,6 +44,10 @@ const generateNPC = (
   if (age === 'random') {
     age = random.age().value;
 
+    if (typeof age === 'number' && age >= -1) {
+      age = 'unknown';
+    }
+
     if (typeof age === 'number' && age >= 100) {
       age = '100+';
     }
@@ -76,7 +80,13 @@ const generateNPC = (
     job = random.job().value;
   }
   if (level === 'random') {
-    level = random.level().value;
+    if (difficult === 'angel' || difficult === 'demon') {
+      level = random.level('angel_demon').value;
+    } else {
+      level = random.level(difficult).value;
+    }
+
+    console.log(level);
   }
   if (personality === 'random') {
     personality = random.personality().value;

@@ -37,8 +37,6 @@ async function handleNPCGeneration(data: any, aiCall: any) {
     data.get('sex_orientation'));
 
     const systemPrompt = `Generate in language: pt-BR and in this output format: escaped JSON example: {"name":"[generated name based on race + possible surname/nickname]","age":"[age]","race":"[race]","class":"[class]","job":"[job]","initiative":"[based on class and level]","speed":"[based on class in feet and meters eg.: 30ft 9m]","hit_points":"[based on class and level eg. 145]","hit_dice":"[based on class, level and race eg. 15d10 + 75]","description":"[random created description based on background and backstory]","appearance":"[random created appearance based on traits]","languages":"[common + based on class and race]","armour_class":"[based on level]","saving_throws":"[based on level, class, job and race eg. STR +1, DEx +1, ...]","attr":{"str":{"title":"attr.str","short":"STR","value":"[based on class and level]","bonus":"[value mod always lower]"},"dex":{"title":"attr.dex","short":"DEX","value":"[based on class and level]","bonus":"[value mod always lower]"},"con":{"title":"attr.con","short":"CON","value":"[based on class and level]","bonus":"[value mod always lower]"},"int":{"title":"attr.int","short":"INT","value":"[based on class and level]","bonus":"[value mod always lower]"},"wis":{"title":"attr.wis","short":"WIS","value":"[based on class and level]","bonus":"[value mod always lower]"},"cha":{"title":"attr.cha","short":"CHA","value":"[based on class and level]","bonus":"[value mod always lower]"}},"items": {"weapon": "[based on class, difficult and level]","armor":"[based on class, difficult and level]","other":"[based on class, difficult and level]","potions":"[may or not have, based on difficult more rare potions can be found]"},"secret_plot":"[based on race, level and background","spells":"{[based on the class, level and difficult if have eg. {"cantrips":[],"level_1":[],"level_2":[],"level_n":[]}]}"} ${values.prompt}`;
-
-    console.log(systemPrompt);
     
     const aiResponse = await aiCall(systemPrompt);
 
@@ -53,10 +51,7 @@ async function handleNPCGeneration(data: any, aiCall: any) {
       console.error("Error parsing AI response:", error);
     }
 
-    console.log(response);
-
     const attr = values.attr;
-    console.log(attr);
 
     const npc = JSON.parse(response);
     npc.race = attr.race;
@@ -74,6 +69,7 @@ async function handleNPCGeneration(data: any, aiCall: any) {
     npc.level = attr.level;
     npc.personality = attr.personality;
     npc.sex_orientation = attr.sex_orientation;
+    npc.age = attr.age == 'unknown' ? -1 : attr.age;
 
     if (data.get('enemy')) {
       npc.enemy = true;

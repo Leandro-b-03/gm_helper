@@ -97,7 +97,7 @@
     "unknown": "Desconhecido"
   },
   "level": {
-    "title": "Nível",
+    "title": "Nível"
   },
   "races": {
     "title": "Raças",
@@ -274,7 +274,7 @@
     "academic": "Acadêmico"
   },
   "enemy": {
-    "title": "Inimigo",
+    "title": "Inimigo"
   },
   "difficulty": {
     "title": "Dificuldade",
@@ -283,7 +283,7 @@
     "medium": "Médio",
     "hard": "Difícil",
     "very_hard": "Muito difícil",
-    "saint": "Santo",
+    "angel": "Santo",
     "demon": "Demônio",
     "god": "Deus",
     "impossible": "Impossível"

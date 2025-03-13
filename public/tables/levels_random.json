@@ -1,0 +1,43 @@
+[
+  {
+    "very_easy": [
+      { "value": 1 },
+      { "value": 2 },
+      { "value": 3 },
+      { "value": 4 }
+    ],
+    "easy": [
+      { "value": 5 },
+      { "value": 6 },
+      { "value": 7 },
+      { "value": 8 }
+    ],
+    "medium": [
+      { "value": 9 },
+      { "value": 10 },
+      { "value": 11 },
+      { "value": 12 }
+    ],
+    "hard": [
+      { "value": 13 },
+      { "value": 14 },
+      { "value": 15 },
+      { "value": 16 }
+    ],
+    "very_hard": [
+      { "value": 17 },
+      { "value": 18 },
+      { "value": 19 },
+      { "value": 20 }
+    ],
+    "angel_demon": [
+      { "value": 25 }
+    ],
+    "god": [
+      { "value": 40 }
+    ],
+    "impossible": [
+      { "value": 50 }
+    ]
+  }
+]
