@@ -108,6 +108,32 @@ body {
   min-height: 100vh;
 }
 
+.striped-bg {
+  background-color: #ccd1d6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.25rem 10px;
+  background-image: linear-gradient(135deg, #e0e4e8 25%, #d9dde1 25%, #d9dde1 50%, #e0e4e8 50%, #e0e4e8 75%, #d9dde1 75%, #d9dde1 100%);
+  background-size: 10px 10px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .info {
   background: url('@/assets/images/bg_info.svg') no-repeat left;
 }

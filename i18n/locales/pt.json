@@ -40,7 +40,10 @@
     "languages": "Idiomas",
     "initiative": "Iniciativa",
     "hit_dice": "Dado de vida",
-    "difficult": "Dificuldade"
+    "difficult": "Dificuldade",
+    "send": "Enviar",
+    "generate": "Gerar NPC",
+    "generate_item": "Gerar Item"
   },
   "attr": {
     "str": "Força",
@@ -77,7 +80,8 @@
     },
     "items": {
       "title": "Itens",
-      "description": "Gere o conteúdo estático do seu site"
+      "description": "O item foi gerado com sucesso",
+      "header": "Selecione as opções para gerar o item ou deixe tudo aleatório mesmo"
     },
     "enemies": {
       "title": "Inimigos",

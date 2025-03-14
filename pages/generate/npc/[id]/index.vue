@@ -1,85 +1,49 @@
 <script setup lang="ts">
-import { value } from '@primeuix/themes/aura/knob';
-
 const { locale } = useNuxtApp().$i18n;
+const { database, ID } = useAppwrite();
+const config = useRuntimeConfig();
 const router = useRouter();
 const route = useRoute();
 
-const { database, ID } = useAppwrite();
-const config = useRuntimeConfig();
-
 const loading = ref(false);
+const panel = ref(null);
+const panelColapsed = ref(false);
+
 const npc = reactive({
   show: false,
-  name: 'Eldrathorn',
-  age: 22,
-  race: 'human',
-  gender: 'male',
-  alignment: 'Neutro Bom',
+  name: '',
+  age: 0,
+  race: '',
+  gender: '',
+  alignment: '',
   level: 1,
-  classes: 'fighter',
-  job: 'innkeeper',
-  background: 'noble',
-  sexOrientation: 'heterosexual',
-  appearance: 'tattooed',
-  personality: 'friendly',
-  affiliations: 'xanathar',
-  goal: 'freedom',
-  backstory: 'Criação nobre',
-  languages: 'Comum, Elfo',
-  savingThrows: 'Força, Destreza',
-  armourClass: 15,
-  initiative: '+2',
-  speed: "30 ft (9 m)",
-  hitPoints: 12,
-  hitDice: '1d10',
-  attr: {
-    str: {
-      title: 'attr.str',
-      short: 'STR',
-      value: 16,
-      bonus: "+3"
-    },
-    dex: {
-      title: 'attr.dex',
-      short: 'DEX',
-      value: 14,
-      bonus: "+2"
-    },
-    con: {
-      title: 'attr.con',
-      short: 'CON',
-      value: 15,
-      bonus: "+2"
-    },
-    int: {
-      title: 'attr.int',
-      short: 'INT',
-      value: 10,
-      bonus: 0
-    },
-    wis: {
-      title: 'attr.wis',
-      short: 'WIS',
-      value: 9,
-      bonus: -1
-    },
-    cha: {
-      title: 'attr.cha',
-      short: 'CHA',
-      value: 13,
-      bonus: "+1"
-    }
-  },
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id. Sed mattis lacus sit amet ligula vehicula consequat. Nunc sit amet consectetur nisi. Integer ultricies nunc ante, eget interdum sem maximus ut.',
-  appearance_: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec efficitur lorem condimentum, vestibulum leo non, fermentum enim. Nam at accumsan justo, quis consequat justo. Nullam cursus velit at eleifend sodales. Ut vehicula malesuada neque, sed gravida libero euismod id.',
+  class_: '',
+  job: '',
+  background: '',
+  sexOrientation: '',
+  appearance: '',
+  personality: '',
+  affiliations: '',
+  goal: '',
+  backstory: '',
+  languages: '',
+  savingThrows: '',
+  armourClass: 0,
+  initiative: '',
+  speed: '',
+  hitPoints: 0,
+  hitDice: '',
+  attr: {},
+  description: '',
+  appearance_: '',
   created_at: '',
   enemy: false,
   secretPlot: '',
   items: [],
   spells: [],
-  difficult: ''
+  difficult: '',
 });
+
 const { data: age, status: statusAge, error: errorAge, refresh: refreshAge, clear: clearAge } = await useAsyncData(
   'age',
   () => $fetch(`${config.public.url}tables/age.json`)
@@ -144,7 +108,6 @@ const enemy = ref([
   { label: 'common.no', value: false },
   { label: 'common.yes', value: true }
 ]);
-
 const initialValues = reactive({
   age: age.value[0],
   race: races.value[0],
@@ -163,165 +126,75 @@ const initialValues = reactive({
   difficult: difficulty.value[0],
   enemy: enemy.value[0],
 });
-const panelColapsed = ref(false);
-// const panelColapsed = ref(true);
 
 const resolver = ({ values }) => {
   const errors = {};
-
-  if (!values.age) {
-      errors.age = [{ message: 'Age is required.' }];
-  }
-
-  if (!values.race) {
-      errors.race = [{ message: 'Username is required.' }];
-  }
-
-  if (!values.gender) {
-    errors.gender = [{ message: 'gender is required.' }];
-  }
-
-  if (!values.alignment) {
-    errors.alignment = [{ message: 'Alignment is required.' }];
-  }
-
-  if (!values.level) {
-    errors.level = [{ message: 'Level is required.' }];
-  }
-
-  if (!values.class_) {
-    errors.class_ = [{ message: 'Class is required.' }];
-  }
-
-  if (!values.jobs) {
-    errors.jobs = [{ message: 'Jobs is required.' }];
-  }
-
-  if (!values.background) {
-    errors.background = [{ message: 'Background is required.' }];
-  }
-
-  if (!values.sex_orientation) {
-    errors.sex_orientation = [{ message: 'Sex orientation is required' }];
-  }
-
-  if (!values.appearance) {
-    errors.appearance = [{ message: 'Appearance is required.' }];
-  }
-
-  if (!values.personality) {
-    errors.personality = [{ message: 'Personality is required.' }];
-  }
-
-  if (!values.affiliation) {
-    errors.affiliation = [{ message: 'Affiliation is required.' }];
-  }
-
-  if (!values.goal) {
-    errors.goal = [{ message: 'Goals is required.' }];
-  }
-
-  if (!values.backstory) {
-    errors.backstory = [{ message: 'Backstory is required.' }];
-  }
-
-  if (!values.difficult) {
-    errors.difficult = [{ message: 'Difficulties is required.' }];
-  }
-
-  return {
-      values, // (Optional) Used to pass current form values to submit event.
-      errors
-  };
+  const requiredFields = [
+    'age', 'race', 'gender', 'alignment', 'level', 'class_', 'job',
+    'background', 'sex_orientation', 'appearance', 'personality',
+    'affiliation', 'goal', 'backstory', 'difficult',
+  ];
+  requiredFields.forEach(field => {
+    if (!values[field]) {
+      errors[field] = [{ message: `${field} is required.` }];
+    }
+  });
+  return { values, errors };
 };
 
 const onFormSubmit = async ({ values, valid }) => {
-  console.log('locale', locale);
-  panelColapsed.value = true;
+  if (!valid) return;
+
+  panel.value.toggle();
   loading.value = true;
   npc.show = true;
-  if (valid) {
+
+  try {
     const formData = new FormData();
     formData.append('generate', 'NPC');
     Object.entries(values).map(([key, value]) => {
       formData.append(key, value.value);
     });
 
-    const { data: NPC, status, error } = await useAsyncData(
-      'NPC',
-      () => $fetch('/api/core', { method: 'POST', body: formData })
-    );
+    const NPC = await $fetch('/api/core', { method: 'POST', body: formData });
 
-    npc.show = true;
-    npc.name = NPC.value.name;
-    npc.age = parseInt(NPC.value.age, 10);
-    npc.race = NPC.value.race;
-    npc.gender = NPC.value.gender;
-    npc.alignment = NPC.value.alignment;
-    npc.level = parseInt(NPC.value.level, 10);
-    npc.classes = NPC.value.class;
-    npc.job = NPC.value.job;
-    npc.background = NPC.value.background;
-    npc.sexOrientation = NPC.value.sex_orientation;
-    npc.description = NPC.value.description;
-    npc.appearance = NPC.value.appearance;
-    npc.appearance_ = NPC.value.appearance_;
-    npc.personality = NPC.value.personality;
-    npc.affiliations = NPC.value.affiliations;
-    npc.goal = NPC.value.goal;
-    npc.backstory = NPC.value.backstory;
-    npc.armourClass = parseInt(NPC.value.armour_class, 10);
-    npc.languages = NPC.value.languages;
-    npc.savingThrows = NPC.value.saving_throws;
-    npc.initiative = NPC.value.initiative;
-    npc.speed = NPC.value.speed;
-    npc.hitPoints = NPC.value.hit_points;
-    npc.hitDice = NPC.value.hit_dice;
-    npc.attr = NPC.value.attr;
-    npc.enemy = NPC.value.enemy;
-    npc.secretPlot = NPC.value.secret_plot ? NPC.value.secret_plot : '';
-    npc.items = NPC.value.items ? NPC.value.items : [];
-    npc.spells = NPC.value.spells ? NPC.value.spells : [];
-    npc.difficult = NPC.value.difficult ? NPC.value.difficult : [];
+    Object.assign(npc, {
+      ...NPC,
+      age: parseInt(NPC.age, 10),
+      level: parseInt(NPC.level, 10),
+      armourClass: parseInt(NPC.armour_class, 10),
+      attr: NPC.attr,
+      items: NPC.items ? NPC.items : [],
+      spells: NPC.spells ? NPC.spells : [],
+      secretPlot: NPC.secret_plot,
+      sexOrientation: NPC.sex_orientation,
+      hitDice: NPC.hit_dice,
+      hitPoints: NPC.hit_points,
+    });
 
-    NPC.value.age = parseInt(NPC.value.age, 10);
-    NPC.value.level = parseInt(NPC.value.level, 10);
-    NPC.value.armour_class = parseInt(NPC.value.armour_class, 10);
-    NPC.value.attr = [JSON.stringify(NPC.value.attr)];
-    if (NPC.value.spells) {
-      NPC.value.spells = [JSON.stringify(NPC.value.spells)];
-    }
-    if (NPC.value.items) {
-      NPC.value.items = [JSON.stringify(NPC.value.items)];
-    }
-
-    if (status.value === 'success') {
-      loading.value = false;
-    }
-
-    const promise = database.createDocument(
+    const response = await database.createDocument(
       config.public.databaseID,
       config.public.npcCollectionID,
       ID.unique(),
-      NPC.value
+      {
+        ...NPC,
+        age: parseInt(NPC.age, 10),
+        level: parseInt(NPC.level, 10),
+        armour_class: parseInt(NPC.armour_class, 10),
+        attr: [JSON.stringify(NPC.attr)],
+        items: NPC.items ? [JSON.stringify(NPC.items)] : [],
+        spells: NPC.spells ? [JSON.stringify(NPC.spells)] : [],
+      }
     );
 
-    promise.then(function (response) {
-      console.log('response', response.$id);
-
-      console.log('route', route.params);
-      console.log('router', router);
-      console.log('locale', locale);
-
-      route.params.id = response.$id;
-      console.log('route', route.params);
-      router.push({
-        name: `generate-npc-id___${locale.value}`,
-        params: { id: response.$id },
-      });
-    }, function (error) {
-      console.log(error);
+    router.push({
+      name: `generate-npc-id___${locale.value}`,
+      params: { id: response.$id },
     });
+  } catch (error) {
+    console.error('Error creating NPC:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -330,59 +203,56 @@ const isLastLevel = (levelKey: string): boolean => {
   return levelKey === levels[levels.length - 1];
 };
 
-onMounted(() => {
-  console.log(JSON.stringify(router.getRoutes()));
-});
-
 const proeficiency = (level: number): string => {
-  // Implement the function logic here
-  if (level >= 1 && level <= 4) {
-    return '2';
-  } else if (level >= 5 && level <= 8) {
-    return '3';
-  } else if (level >= 9 && level <= 12) {
-    return '4';
-  } else if (level >= 13 && level <= 16) {
-    return '5';
-  } else if (level >= 17 && level <= 20) {
-    return '6';
-  } else {
-    return '10';
-  }
+  if (level >= 1 && level <= 4) return '2';
+  if (level >= 5 && level <= 8) return '3';
+  if (level >= 9 && level <= 12) return '4';
+  if (level >= 13 && level <= 16) return '5';
+  if (level >= 17 && level <= 20) return '6';
+  return '10';
 };
+
+onMounted(async () => {
+  const id = route.params.id;
+  if (id !== 'new') {
+    npc.show = true;
+    loading.value = true;
+    try {
+      const response = await database.getDocument(
+        config.public.databaseID,
+        config.public.npcCollectionID,
+        id
+      );
+      
+      Object.assign(npc, {
+        ...response,
+        age: parseInt(response.age, 10),
+        armourClass: parseInt(response.armour_class, 10),
+        class_: response.class,
+        level: parseInt(response.level, 10),
+        attr: JSON.parse(response.attr[0]),
+        items: response.items[0] ? JSON.parse(response.items[0]) : [],
+        spells: response.spells[0] ? JSON.parse(response.spells[0]) : [],
+        secretPlot: response.secret_plot,
+        savingThrows: response.saving_throws,
+        sexOrientation: response.sex_orientation,
+        hitDice: response.hit_dice,
+        hitPoints: response.hit_points,
+      });
+      panelColapsed.value = true;
+    } catch (error) {
+      console.error('Error fetching NPC:', error);
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    panelColapsed.value = false;
+  }
+});
 </script>
 
-<style>
-.striped-bg {
-  background-color: #ccd1d6;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 1.25rem 10px;
-  background-image: linear-gradient(135deg, #e0e4e8 25%, #d9dde1 25%, #d9dde1 50%, #e0e4e8 50%, #e0e4e8 75%, #d9dde1 75%, #d9dde1 100%);
-  background-size: 10px 10px;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-/* Fade transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
-
 <template>
-  <router-view :key="$route.fullPath"></router-view>
-  <Panel :header="$t('generate.npcs.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed">
+  <Panel :header="$t('generate.npcs.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed" ref="panel">
     <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit" class="flex flex-col gap-4 w-full">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
         <div class="flex flex-col gap-1">
@@ -642,12 +512,12 @@ const proeficiency = (level: number): string => {
           <Message v-if="$form.difficulty?.invalid" severity="error" size="small" variant="simple">{{ $form.difficulty.error?.message }}</Message>
         </div>
       </div>
-      <Button type="submit" severity="secondary" label="Submit" />
+      <Button type="submit" severity="secondary" :label="$t('common.generate')" :disabled="panelColapsed.value" :loading="loading" />
     </Form>
   </Panel>
 
   <TransitionGroup name="fade">
-    <div v-if="npc.show" class="bg-surface-50 dark:bg-surface-950 mt-4 rounded">
+    <div v-if="npc.show" class="bg-surface-50 dark:bg-surface-950 mt-4 rounded" key="npc">
       <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded">
         <div class="text-3xl font-medium text-surface-900 dark:text-surface-0 mb-2">
           <Skeleton v-if="loading" height="25px" width="150px" />
@@ -671,7 +541,7 @@ const proeficiency = (level: number): string => {
                   <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
                   <small v-else class="text-gray-50">{{ $t(`races.${npc.race}`) }}</small>
                   <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
-                  <small v-else class="text-gray-50">{{ $t(`classes.${npc.classes}`) }}</small>
+                  <small v-else class="text-gray-50">{{ $t(`classes.${npc.class_}`) }}</small>
                   <Skeleton v-if="loading" width="100px" height="15px" />
                   <small v-else class="text-gray-50">{{ npc.job ? $t(`jobs.${npc.job}`) : '-' }}</small>
                 </div>
