@@ -8,11 +8,15 @@ import classes from '@/public/tables/classes.json';
 import difficulty from '@/public/tables/difficulty.json';
 import gender from '@/public/tables/gender.json';
 import goals from '@/public/tables/goals.json';
+import item_tier from '@/public/tables/item_tiers.json';
 import jobs from '@/public/tables/jobs.json';
 import levels from '@/public/tables/levels_random.json';
 import personalities from '@/public/tables/personalities.json';
 import races from '@/public/tables/races.json';
+import rarity from '@/public/tables/rarities.json';
 import sex_orientations from '@/public/tables/sex_orientations.json';
+import types from '@/public/tables/types.json';
+import wondrous_item from '@/public/tables/wondrous_items.json';
 
 /**
  * Utility object for generating random attributes for RPG characters.
@@ -79,6 +83,12 @@ const random = {
   goal: () => goals[Math.floor(Math.random() * (goals.length - 1)) + 1],
 
   /**
+   * Generates a random item tier.
+   * @returns {string} A random item tier
+   */
+  item_tier: () => item_tier[Math.floor(Math.random() * (item_tier.length - 1)) + 1],
+
+  /**
    * Generates a random job.
    * @returns {string} A random job.
    */
@@ -107,10 +117,28 @@ const random = {
   race: () => races[Math.floor(Math.random() * (races.length - 1)) + 1],
 
   /**
+   * Generates a random rarity.
+   * @returns {string} A random rarity.
+   */
+  rarity: () => rarity[Math.floor(Math.random() * (rarity.length - 1)) + 1],
+
+  /**
    * Generates a random sexual orientation.
    * @returns {string} A random sexual orientation.
    */
   sex_orientation: () => sex_orientations[Math.floor(Math.random() * (sex_orientations.length - 1)) + 1],
+
+  /**
+   * Generates a random type.
+   * @returns {string} A random type.
+   */
+  type: () => types[Math.floor(Math.random() * (types.length - 1)) + 1],
+
+  /**
+   * Generates a random wondrous item.
+   * @returns {boolean} A random wondrous item.
+   */
+  wondrous_item: () => wondrous_item[Math.floor(Math.random() * (wondrous_item.length - 1)) + 1],
 };
 
 export default random;

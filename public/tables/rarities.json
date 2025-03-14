@@ -1,0 +1,9 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "rarity.common", "value": "common" },
+  { "label": "rarity.uncommon", "value": "uncommon" },
+  { "label": "rarity.rare", "value": "rare" },
+  { "label": "rarity.very_rare", "value": "very_rare" },
+  { "label": "rarity.legendary", "value": "legendary" },
+  { "label": "rarity.artifact", "value": "artifact" }
+]

@@ -6,25 +6,47 @@ const panelColapsed = ref(false);
 const loading = ref(false);
 const item = reactive({
   show: true,
+  class_: '',
+  name: '',
+  description: '',
+  weapon_type: '',
+  damage: '',
+  requirements: '',
   type: '',
+  wondrousItems: '',
+  rarity: '',
+  itemTier: '',
+  evolutionLevel: [],
+  notes: [],
 });
 
-const type = ref([
-  { label: "common.random", value: "random" },
-  { label: 'type.item', value: 'item' },
-  { label: 'type.weapon', value: 'weapon' },
-  { label: 'type.armor', value: 'armor' },
-  { label: 'type.potion', value: 'potion' },
-  { label: 'type.scroll', value: 'scroll' },
-  { label: 'type.ring', value: 'ring' },
-  { label: 'type.wand', value: 'wand' },
-  { label: 'type.rod', value: 'rod' },
-  { label: 'type.staff', value: 'staff' },
-  { label: 'type.misc', value: 'misc' },
-]);
+const { data: classesData, status: statusClasses, error: errorClasses, refresh: refreshClasses, clear: clearClasses } = await useAsyncData(
+  'classes',
+  () => $fetch(`${config.public.url}tables/classes.json`)
+);
+const { data: types, status: statusTypes, error: errorTypes, refresh: refreshTypes, clear: clearTypes } = await useAsyncData(
+  'types',
+  () => $fetch(`${config.public.url}tables/types.json`)
+);
+const { data: wondrousItems, status: statusWondrousItems, error: errorWondrousItems, refresh: refreshWondrousItems, clear: clearWondrousItems } = await useAsyncData(
+  'wondrousItems',
+  () => $fetch(`${config.public.url}tables/wondrous_items.json`)
+);
+const { data: rarities, status: statusRarities, error: errorRarities, refresh: refreshRarities, clear: clearRarities } = await useAsyncData(
+  'rarities',
+  () => $fetch(`${config.public.url}tables/rarities.json`)
+);
+const { data: itemTiers, status: statusItemTiers, error: errorItemTiers, refresh: refreshItemTiers, clear: clearItemTiers } = await useAsyncData(
+  'itemTiers',
+  () => $fetch(`${config.public.url}tables/item_tiers.json`)
+);
 
 const initialValues = reactive({
-  type: type.value[0],
+  class_: classesData.value[0],
+  type: types.value[0],
+  wondrousItems: wondrousItems.value[0],
+  rarity: rarities.value[0],
+  itemTier: itemTiers.value[0],
 });
 
 const resolver = ({ values }) => {
@@ -51,7 +73,7 @@ const onFormSubmit = async ({ values }) => {
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
         <div class="flex flex-col gap-1">
           <label for="type" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('type.title') }}</label>
-          <Select :options="type" optionLabel="label" name="type" type="text" placeholder="type" fluid>
+          <Select :options="types" optionLabel="label" name="type" type="text" placeholder="type" fluid>
             <template #value="{ value }">
               <div class="flex flex-row items-center gap-2">
                 <span>{{ $t(value.label) }}</span>

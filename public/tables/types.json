@@ -1,0 +1,10 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "type.weapon", "value": "weapon" },
+  { "label": "type.armor", "value": "armor" },
+  { "label": "type.ring", "value": "ring" },
+  { "label": "type.wand", "value": "wand" },
+  { "label": "type.staff", "value": "staff" },
+  { "label": "type.potion", "value": "potion" },
+  { "label": "type.wondrous_item", "value": "wondrous_item" }
+]
