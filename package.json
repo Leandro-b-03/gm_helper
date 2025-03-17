@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@morev/vue-transitions": "^3.0.5",
     "@nuxtjs/i18n": "^9.2.1",
     "@primeuix/themes": "^1.0.0-rc.1",
     "@primevue/forms": "^4.2.5",

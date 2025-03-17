@@ -13,9 +13,10 @@ export default defineNuxtConfig({
     ],
   },
   modules: [
-    "nuxt-appwrite",
+    'nuxt-appwrite',
     '@primevue/nuxt-module',
     '@nuxtjs/i18n',
+    '@morev/vue-transitions/nuxt',
   ],
   appwrite: {
     endpoint: 'https://cloud.appwrite.io/v1',

@@ -1,9 +1,9 @@
 [
   { "label": "common.random", "value": "random" },
-  { "label": "rarity.common", "value": "common" },
-  { "label": "rarity.uncommon", "value": "uncommon" },
-  { "label": "rarity.rare", "value": "rare" },
-  { "label": "rarity.very_rare", "value": "very_rare" },
-  { "label": "rarity.legendary", "value": "legendary" },
-  { "label": "rarity.artifact", "value": "artifact" }
+  { "label": "rarities.common", "value": "common" },
+  { "label": "rarities.uncommon", "value": "uncommon" },
+  { "label": "rarities.rare", "value": "rare" },
+  { "label": "rarities.very_rare", "value": "very_rare" },
+  { "label": "rarities.legendary", "value": "legendary" },
+  { "label": "rarities.artifact", "value": "artifact" }
 ]

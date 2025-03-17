@@ -198,11 +198,6 @@ const onFormSubmit = async ({ values, valid }) => {
   }
 };
 
-const isLastLevel = (levelKey: string): boolean => {
-  const levels = Object.keys(npc.spells);
-  return levelKey === levels[levels.length - 1];
-};
-
 const proeficiency = (level: number): string => {
   if (level >= 1 && level <= 4) return '2';
   if (level >= 5 && level <= 8) return '3';
@@ -682,7 +677,7 @@ onMounted(async () => {
                           <template v-for="(spells, levelKey) in npc.spells" :key="levelKey">
                             <tr v-if="spells && spells.length > 0" class="border-b border-gray-300">
                               <td class="bg-gray-200 p-1 rounded-bl text-right">{{ $t(`spells.${levelKey}`) }}</td>
-                              <td class="bg-gray-100 p-1" :class="{ 'rounded-br': isLastLevel(levelKey) }">
+                              <td class="bg-gray-100 p-1" :class="{ 'rounded-br': isLastLevel(npc.spells, levelKey) }">
                                 <Tag v-for="(spell, index) in spells" :key="`spell-${levelKey}-${index}`" :value="spell" class="m-1" severity="success" size="small" />
                               </td>
                             </tr>

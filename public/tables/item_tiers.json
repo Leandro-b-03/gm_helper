@@ -1,7 +1,7 @@
 [
   { "label": "common.random", "value": "random" },
-  { "label": "item_level.tier_1", "value": "level_1_4" },
-  { "label": "item_level.tier_2", "value": "level_5_10" },
-  { "label": "item_level.tier_3", "value": "level_11_16" },
-  { "label": "item_level.tier_4", "value": "level_17_20" }
+  { "label": "item_tier.tier_1", "value": "level_1_4" },
+  { "label": "item_tier.tier_2", "value": "level_5_10" },
+  { "label": "item_tier.tier_3", "value": "level_11_16" },
+  { "label": "item_tier.tier_4", "value": "level_17_20" }
 ]
