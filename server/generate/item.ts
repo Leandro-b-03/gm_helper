@@ -6,6 +6,7 @@ interface ITEMType {
   rarity: string;
   item_tier: string;
   wondrous_item: string;
+  weapon: string;
 }
 
 const generateItem = (
@@ -14,6 +15,7 @@ const generateItem = (
   rarity: string,
   item_tier: string,
   wondrous_item: string,
+  weapon: string,
 ) => {
   if (class_ === 'random') {
     class_ = random.class_().value;
@@ -27,8 +29,10 @@ const generateItem = (
   if (item_tier === 'random') {
     item_tier = random.item_tier().value;
   }
-  if (wondrous_item === 'random') {
+  if (type === 'wondrous_item' && wondrous_item === 'random') {
     wondrous_item = random.wondrous_item().value;
+  } else if (type === 'weapon' && weapon === 'random') {
+    weapon = random.weapon().value;
   }
 
   const item: ITEMType = { //Create a new object inside of the function.
@@ -37,7 +41,10 @@ const generateItem = (
     rarity: rarity,
     item_tier: item_tier,
     wondrous_item: wondrous_item,
+    weapon: weapon,
   };
+
+  console.log(item);
 
   let prompt = `Create an ITEM with the following traits: ${itemToReadableString(item)}`;
 
@@ -51,21 +58,12 @@ const generateItem = (
 
 function itemToReadableString(item: ITEMType): string {
   return `
-    Affiliation: ${item.affiliation},
-    Age: ${item.age},
-    Alignment: ${item.alignment},
-    Appearance: ${item.appearance},
-    Background: ${item.background},
-    Backstory: ${item.backstory},
     Class: ${item.class},
-    Gender: ${item.gender},
-    Goal: ${item.goal},
-    Job: ${item.job},
-    Level: ${item.level},
-    Personality: ${item.personality},
-    Race: ${item.race},
-    Sex Orientation: ${item.sex_orientation},
-    Difficult: ${item.difficult},
+    Type: ${item.type},
+    Rarity: ${item.rarity},
+    Item Tier: ${item.item_tier},
+    Wondrous Item: ${item.wondrous_item},
+    Weapon: ${item.weapon},
   `;
 }
 

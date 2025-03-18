@@ -44,10 +44,13 @@
     "send": "Enviar",
     "generate": "Gerar NPC",
     "generate_item": "Gerar Item",
-    "player_level": "Nível do jogador",
+    "player_level": "Nível",
     "npc_level": "Nível do NPC",
     "requirements": "Requisitos",
-    "evolution_requirement": "Requisito de evolução",
+    "evolution_requirement": "Evolução",
+    "evolution_notes": "Notas de evolução",
+    "evolution": "Evolução",
+    "evolutions": "Evoluções",
     "notes": "Notas",
     "damage": "Dano",
     "range": "Alcance",
@@ -69,6 +72,7 @@
     "level": {
       "1_to_2": "1 a 2",
       "1_to_3": "1 a 3",
+      "1_to_4": "1 a 4",
       "1_to_5": "1 a 5",
       "1_to_7": "1 a 7",
       "1_to_10": "1 a 10",
@@ -78,14 +82,18 @@
       "1_to_20": "1 a 20",
       "3_to_4": "3 a 4",
       "5_to_6": "5 a 6",
+      "5_to_8": "5 a 8",
       "7_to_8": "7 a 8",
       "8_to_14": "8 a 14",
       "9_to_10": "9 a 10",
+      "9_to_12": "9 a 12",
       "11_to_12": "11 a 12",
       "13_to_14": "13 a 14",
+      "13_to_16": "13 a 16",
       "15_to_16": "15 a 16",
       "15_to_20": "14 a 20",
       "17_to_18": "17 a 18",
+      "17_to_20": "17 a 20",
       "19_to_20": "19 a 20"
     }
   },
@@ -364,7 +372,8 @@
     "tier_1": "Nível 1",
     "tier_2": "Nível 2",
     "tier_3": "Nível 3",
-    "tier_4": "Nível 4"
+    "tier_4": "Nível 4",
+    "tier_5": "Nível 5"
   },
   "type": {
     "title": "Tipo de item",
@@ -451,6 +460,7 @@
     "net": "Rede"
   },
   "bonus": {
+    "title": "Bônus",
     "divine_smite": "Golpe divino",
     "sneak_attack": "Ataque furtivo",
     "rage": "Fúria",

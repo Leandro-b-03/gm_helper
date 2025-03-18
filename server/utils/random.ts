@@ -16,6 +16,7 @@ import races from '@/public/tables/races.json';
 import rarity from '@/public/tables/rarities.json';
 import sex_orientations from '@/public/tables/sex_orientations.json';
 import types from '@/public/tables/types.json';
+import weapon from '@/public/tables/weapons.json';
 import wondrous_item from '@/public/tables/wondrous_items.json';
 
 /**
@@ -133,6 +134,12 @@ const random = {
    * @returns {string} A random type.
    */
   type: () => types[Math.floor(Math.random() * (types.length - 1)) + 1],
+
+  /**
+   * Generates a random weapon.
+   * @returns {string} A random weapon.
+   */
+  weapon: () => weapon[Math.floor(Math.random() * (weapon.length - 1)) + 1],
 
   /**
    * Generates a random wondrous item.
