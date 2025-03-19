@@ -30,7 +30,7 @@ async function handleItemGeneration(data: any, aiCall: any, ITEM: any) {
 
   const item = JSON.parse(response);
   item.class = attr.class;
-  item.damage_type = attr.damage_type;
+  item.damage_type = attr.damage;
   item.type = attr.type;
   item.rarity = attr.rarity;
   item.item_tier = attr.item_tier;
