@@ -1,0 +1,18 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "damage.physical", "value": "physical" },
+  { "label": "damage.slashing", "value": "slashing" },
+  { "label": "damage.piercing", "value": "piercing" },
+  { "label": "damage.bludgeoning", "value": "bludgeoning" },
+  { "label": "damage.acid", "value": "acid" },
+  { "label": "damage.cold", "value": "cold" },
+  { "label": "damage.fire", "value": "fire" },
+  { "label": "damage.lightning", "value": "lightning" },
+  { "label": "damage.poison", "value": "poison" },
+  { "label": "damage.radiant", "value": "radiant" },
+  { "label": "damage.necrotic", "value": "necrotic" },
+  { "label": "damage.psychic", "value": "psychic" },
+  { "label": "damage.thunder", "value": "thunder" },
+  { "label": "damage.force", "value": "force" },
+  { "label": "damage.eldritch", "value": "eldritch" }
+]

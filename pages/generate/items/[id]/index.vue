@@ -31,6 +31,10 @@ const { data: classesData, status: statusClasses, error: errorClasses, refresh: 
   'classes',
   () => $fetch(`${config.public.url}tables/classes.json`)
 );
+const { data: damages, status: statusDamages, error: errorDamages, refresh: refreshDamages, clear: clearDamages } = await useAsyncData(
+  'damages',
+  () => $fetch(`${config.public.url}tables/damage_type.json`)
+);
 const { data: types, status: statusTypes, error: errorTypes, refresh: refreshTypes, clear: clearTypes } = await useAsyncData(
   'types',
   () => $fetch(`${config.public.url}tables/types.json`)
@@ -43,10 +47,6 @@ const { data: rarities, status: statusRarities, error: errorRarities, refresh: r
   'rarities',
   () => $fetch(`${config.public.url}tables/rarities.json`)
 );
-const { data: itemTiers, status: statusItemTiers, error: errorItemTiers, refresh: refreshItemTiers, clear: clearItemTiers } = await useAsyncData(
-  'itemTiers',
-  () => $fetch(`${config.public.url}tables/item_tiers.json`)
-);
 const { data: weapons, status: statusWeapons, error: errorWeapons, refresh: refreshWeapons, clear: clearWeapons } = await useAsyncData(
   'weapons',
   () => $fetch(`${config.public.url}tables/weapons.json`)
@@ -54,17 +54,17 @@ const { data: weapons, status: statusWeapons, error: errorWeapons, refresh: refr
 
 const initialValues = reactive({
   class_: classesData.value[0],
+  damage: damages.value[0],
   type: types.value[0],
   wondrous_items: wondrousItems.value[0],
   rarity: rarities.value[0],
-  item_tier: itemTiers.value[0],
   weapons: weapons.value[0],
 });
 
 const resolver = ({ values }) => {
   const errors = {};
   const requiredFields = [
-    'type', 'class_', 'rarity', 'item_tier'
+    'type', 'class_', 'rarity', 'damage'
   ];
   requiredFields.forEach(field => {
     if (!values[field]) {
@@ -113,6 +113,7 @@ const onFormSubmit = async ({ values, valid }) => {
         description: ITEM.description,
         type: ITEM.type,
         damage: [JSON.stringify(ITEM.damage)],
+        damage_type: ITEM.damage_type,
         requirements: ITEM.requirements,
         wondrous_item: ITEM.wondrous_items,
         rarity: ITEM.rarity,
@@ -125,8 +126,9 @@ const onFormSubmit = async ({ values, valid }) => {
     );
 
     router.push({
-      name: `generate-item-id___${locale.value}`,
+      name: `generate-items-id___${locale.value}`,
       params: { id: response.$id },
+      reload: false,
     });
   } catch (error) {
     console.error('Error creating ITEM:', error);
@@ -134,9 +136,49 @@ const onFormSubmit = async ({ values, valid }) => {
     loading.value = false;
   }
 };
+
+onMounted(async () => {
+  const id = route.params.id;
+  if (id !== 'new') {
+    item.show = true;
+    loading.value = true;
+    try {
+      const response = await database.getDocument(
+        config.public.databaseID,
+        config.public.itemsCollectionID,
+        id
+      );
+      
+      Object.assign(item, {
+        ...response,
+        class_: response.class,
+        name: response.name,
+        description: response.description,
+        type: response.type,
+        damage: JSON.parse(response.damage[0]),
+        requirements: response.requirements,
+        wondrousItems: response.wondrous_item,
+        rarity: response.rarity,
+        itemTier: response.item_tier,
+        weaponType: response.weapon_type,
+        evolutionLevel: JSON.parse(response.evolution_level[0]),
+        notes: response.notes,
+        evolutionNotes: response.evolution_notes,
+      });
+      panelColapsed.value = true;
+    } catch (error) {
+      console.error('Error fetching NPC:', error);
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    panelColapsed.value = false;
+  }
+});
 </script>
 
 <template>
+  <router-view :key="$route.fullPath"></router-view>
   <transition-fade group>
     <Panel :header="$t('generate.items.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed" ref="panel">
       <Form v-slot="$form" :initialValues :resolver @submit="onFormSubmit" class="flex flex-col gap-4 w-full">
@@ -189,9 +231,9 @@ const onFormSubmit = async ({ values, valid }) => {
             </Select>
             <Message v-if="$form.rarity?.invalid" severity="error" size="small" variant="simple">{{ $form.rarity.error?.message }}</Message>
           </div>
-          <div class="flex flex-col gap-1" key="itemTier">
-            <label for="item_tier" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('item_tier.title') }}</label>
-            <Select :options="itemTiers" optionLabel="label" name="item_tier" type="text" placeholder="itemTier" fluid>
+          <div class="flex flex-col gap-1" key="damage">
+            <label for="damage" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('damage.title') }}</label>
+            <Select :options="damages" optionLabel="label" name="damage" type="text" placeholder="damage" fluid>
               <template #value="{ value }">
                 <div class="flex flex-row items-center gap-2">
                   <span>{{ $t(value.label) }}</span>
@@ -203,7 +245,7 @@ const onFormSubmit = async ({ values, valid }) => {
                 </div>
               </template>
             </Select>
-            <Message v-if="$form.itemTier?.invalid" severity="error" size="small" variant="simple">{{ $form.itemTier.error?.message }}</Message>
+            <Message v-if="$form.rarity?.invalid" severity="error" size="small" variant="simple">{{ $form.rarity.error?.message }}</Message>
           </div>
           <div class="flex flex-col gap-1" key="weapon" v-if="type.value === 'weapon'">
             <label for="weapons" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('weapons.title') }}</label>
@@ -260,7 +302,7 @@ const onFormSubmit = async ({ values, valid }) => {
               <div class="header bg-gray-800 p-4 flex flex-row justify-between items-center mb-1">
                 <div>
                   <Skeleton v-if="loading" width="150px" height="35px" />
-                  <h2 v-else class="text-3xl text-gray-50 mb-0">{{ item.name }} <i class="text-xs">Total nv. {{ item.totalLevels }}</i></h2>
+                  <h2 v-else class="text-3xl text-gray-50 mb-0">{{ item.name }} <i class="text-xs"></i></h2>
                   <Skeleton v-if="loading" width="100px" height="15px" class="mt-1" />
                   <small v-else class="text-gray-50 relative -t-2">{{ $t(`type.${item.type}`) }}</small>
                 </div>
@@ -277,13 +319,17 @@ const onFormSubmit = async ({ values, valid }) => {
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
                   <div>
                     <!-- <img src="/assets/images/items/weapons/holy_longsword.webp" :alt="item.name" class="w-full h-auto mb-2" /> -->
+                    <!-- <img src="/assets/images/items/weapons/arcane_staff.webp" :alt="item.name" class="w-full h-auto mb-2" /> -->
                     <table class="table-auto w-full border-separate mb-2">
                       <tbody>
                         <tr class="border-b border-gray-300">
                           <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right font-semibold text-xs">{{ $t('common.damage') }}</td>
                           <td class="bg-gray-100 p-1 rounded-tr">
                             <Skeleton v-if="loading" width="15px" height="15px" />
-                            <span v-else>{{ item.damage?.base }}, {{ item.damage?.versatile }}</span>
+                            <span v-else>
+                              {{ item.damage?.base }}
+                              <template v-if="item.damage?.versatile">, {{ item.damage?.versatile }}</template>
+                            </span>
                           </td>
                         </tr>
                         <tr class="">

@@ -5,6 +5,7 @@ import appearances from '@/public/tables/appearances.json';
 import backgrounds from '@/public/tables/backgrounds.json';
 import backstories from '@/public/tables/backstories.json';
 import classes from '@/public/tables/classes.json';
+import damage from '@/public/tables/damage_type.json';
 import difficulty from '@/public/tables/difficulty.json';
 import gender from '@/public/tables/gender.json';
 import goals from '@/public/tables/goals.json';
@@ -64,6 +65,12 @@ const random = {
    * @returns {string} A random class.
    */
   class_: () => classes[Math.floor(Math.random() * (classes.length - 1)) + 1],
+
+  /**
+   * Generates a random damage type.
+   * @returns {string} A random damage
+   */
+  damage: () => damage[Math.floor(Math.random() * (damage.length - 1)) + 1],
 
   /**
    * Generates a random difficulty.

@@ -388,6 +388,7 @@
   },
   "wondrous_items": {
     "title": "Itens maravilhosos",
+    "random": "-",
     "amulet": "Amuleto",
     "boots": "Botas",
     "belt": "Cinto",
@@ -421,6 +422,7 @@
   },
   "weapons": {
     "title": "Armas",
+    "random": "-",
     "club": "Clava",
     "dagger": "Adaga",
     "greatclub": "Grande clava",
@@ -485,5 +487,24 @@
     "unarmored_movement": "Movimento sem armadura",
     "stacks_with": "Stack com",
     "special_effect": "Efeito especial",
+  },
+  "damage": {
+    "title": "Tipo de Dano",
+    "random": "Aleatório",
+    "physical": "Físico",
+    "slashing": "Cortante",
+    "piercing": "Perfurante",
+    "bludgeoning": "Contundente",
+    "acid": "Ácido",
+    "cold": "Frio",
+    "fire": "Fogo",
+    "lightning": "Relâmpago",
+    "poison": "Veneno",
+    "radiant": "Radiante",
+    "necrotic": "Necrótico",
+    "psychic": "Psíquico",
+    "thunder": "Trovão",
+    "force": "Força",
+    "eldritch": "Sobrenatural"
   }
 }
