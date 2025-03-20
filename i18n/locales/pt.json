@@ -1,5 +1,9 @@
 {
   "app": "APP",
+  "card": {
+    "footer_left": "Gerado por Mestre APP",
+    "footer_right": "©"
+  },
   "common": {
     "loading": "Carregando...",
     "save": "Salvar",

@@ -720,8 +720,10 @@ onMounted(async () => {
               <div class="footer w-full h-7 bg-gray-200 p-2">
                 <div class="flex flex-row justify-between items-center">
                   <div class="flex flex-row gap-2">
+                    {{ $t('card.footer_left') }}
                   </div>
                   <div class="flex flex-row gap-2">
+                    {{ $t('card.footer_right') }} {{ new Date().getFullYear() }}
                   </div>
                 </div>
               </div>
