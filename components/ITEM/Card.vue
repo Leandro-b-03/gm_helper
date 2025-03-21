@@ -19,35 +19,7 @@ const openUpload = () => {
 };
 
 const generatePDF = () => {
-  if (pdfSection.value) {
-    const popupWindow = window.open('', '_blank', 'width=800,height=600');
-    if (popupWindow) {
-      popupWindow.document.open();
-      popupWindow.document.write(`
-        <html>
-          <head>
-            <title>PDF Preview</title>
-            <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"><\/script>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 20px;
-              }
-            </style>
-          </head>
-          <body>
-            ${pdfSection.value.outerHTML}
-          </body>
-        </html>
-      `);
-      popupWindow.document.close();
-    } else {
-      console.error('Failed to open popup window.');
-    }
-  } else {
-    console.error('pdfSection is not available.');
-  }
+  printSection(pdfSection.value);
 };
 </script>
 

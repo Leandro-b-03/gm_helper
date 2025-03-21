@@ -23,6 +23,7 @@
     "primevue": "^4.2.5",
     "tailwindcss-primeui": "^0.4.0",
     "vue": "latest",
+    "vue-html-to-paper": "^2.0.3",
     "vue-router": "latest"
   },
   "devDependencies": {
