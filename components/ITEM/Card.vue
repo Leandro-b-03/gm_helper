@@ -19,19 +19,36 @@ const openUpload = () => {
 };
 
 const generatePDF = () => {
-  const { $html2pdf } = useNuxtApp();
-
-  var opt = {
-    margin: 1,
-    filename: `${props.item.name}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    html2canvas: { useCORS: true, scale: 2, allowTaint: true },
-  };
-
-  $html2pdf().set(opt).from(document.getElementById("card-pdf")).save();
-}
+  if (pdfSection.value) {
+    const popupWindow = window.open('', '_blank', 'width=800,height=600');
+    if (popupWindow) {
+      popupWindow.document.open();
+      popupWindow.document.write(`
+        <html>
+          <head>
+            <title>PDF Preview</title>
+            <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"><\/script>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            ${pdfSection.value.outerHTML}
+          </body>
+        </html>
+      `);
+      popupWindow.document.close();
+    } else {
+      console.error('Failed to open popup window.');
+    }
+  } else {
+    console.error('pdfSection is not available.');
+  }
+};
 </script>
 
 <template>

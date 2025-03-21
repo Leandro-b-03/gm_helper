@@ -18,6 +18,13 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@morev/vue-transitions/nuxt',
   ],
+  nitro: {
+    replace: {
+      // replace the browser detection in a server lib
+      'globalThis.navigator': 'node',
+      "global.navigator": 'node',
+    },
+  },
   appwrite: {
     endpoint: 'https://cloud.appwrite.io/v1',
     project: '67b7ba420020f16cc61a',

@@ -16,8 +16,6 @@
     "@primevue/forms": "^4.2.5",
     "@tailwindcss/vite": "^4.0.8",
     "es6-promise": "^4.2.8",
-    "html2pdf.js": "^0.10.3",
-    "jspdf": "^3.0.1",
     "nuxt": "^3.15.4",
     "nuxt-appwrite": "^1.1.1",
     "openai": "^4.86.2",

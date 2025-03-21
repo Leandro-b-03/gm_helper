@@ -142,7 +142,7 @@ const onFormSubmit = async ({ values, valid }) => {
     );
 
     router.push({
-      name: `generate-items-id___${locale.value}`,
+      name: `generate-item-id___${locale.value}`,
       params: { id: response.$id },
       reload: false,
     });

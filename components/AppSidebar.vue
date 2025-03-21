@@ -11,12 +11,12 @@ const items = ref([
     {
       label: 'generate.npcs.title',
       icon: 'pi pi-user',
-      command: () => router.push('/generate/npcs/new')
+      command: () => router.push('/generate/npc/new')
     },
     {
       label: 'generate.items.title',
       icon: 'pi pi-box',
-      command: () => router.push('/generate/items/new')
+      command: () => router.push('/generate/item/new')
     }
   ]
 },
