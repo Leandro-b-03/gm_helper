@@ -24,12 +24,40 @@ const item = reactive({
   rarity: '',
   itemTier: '',
   evolutionLevel: [
-    1, 2, 3, 4, 5
+    { level: 1 },
+    { level: 2 },
+    { level: 3 },
+    { level: 4 },
+    { level: 5 }
   ],
   notes: [],
   image: defaultImage,
   evolutionNotes: [],
 });
+
+if (item.show == true && item.name != '' && route.params.id == 'new') {
+  const response = await database.createDocument(
+    config.public.databaseID,
+    config.public.itemsCollectionID,
+    ID.unique(),
+    {
+      name: item.name,
+      class: item.class_,
+      description: item.description,
+      type: item.type,
+      damage: [JSON.stringify(item.damage)],
+      damage_type: item.damage_type,
+      requirements: item.requirements,
+      wondrous_item: item.wondrous_item,
+      rarity: item.rarity,
+      item_tier: item.item_tier,
+      weapon_type: item.weaponType,
+      evolution_level: [JSON.stringify(item.evolutionLevel)],
+      notes: item.notes,
+      evolution_notes: item.evolutionNotes
+    }
+  );
+}
 
 const { data: classesData, status: statusClasses, error: errorClasses, refresh: refreshClasses, clear: clearClasses } = await useAsyncData(
   'classes',
@@ -117,6 +145,7 @@ const onFormSubmit = async ({ values, valid }) => {
       weaponType: ITEM.weapon,
       evolutionLevel: ITEM.evolution_levels,
       evolutionNotes: ITEM.evolution_notes,
+      image: defaultImage,
     });
 
     const response = await database.createDocument(
@@ -158,6 +187,7 @@ onMounted(async () => {
   if (id !== 'new') {
     item.show = true;
     loading.value = true;
+    panelColapsed.value = true;
     try {
       const response = await database.getDocument(
         config.public.databaseID,
