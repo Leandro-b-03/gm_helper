@@ -1,7 +1,12 @@
 export const printSection = (html: HTMLElement, options: any = {}) => {
   console.log('printSection', html, options);
   if (html) {
+    var html_ = html.cloneNode(true) as HTMLElement;
     const popupWindow = window.open('', '_blank');
+
+    html_.classList.remove('lg:w-[900px]');
+    html_.classList.add('lg:w-[550px]');
+
     if (popupWindow) {
       popupWindow.document.open();
       popupWindow.document.write(`
@@ -49,16 +54,16 @@ export const printSection = (html: HTMLElement, options: any = {}) => {
               .column {
                   width: 50%;
                   height: 100%;
-                  padding-right: 5mm; /* Add spacing between columns */
-                  padding-left: 5mm;
                   box-sizing: border-box;
+                  margin-top: 10px;
+                  margin-left: 10px;
               }
             </style>
           </head>
           <body>
             <div class="page">
               <div class="column">
-                ${html.outerHTML.replace(/text-xs/g, 'text-[7px]').replace(/<h2 class="font-semibold">/g, '<h2 class="font-semibold text-[10px]">').replace(/<th colspan="2" class="bg-gray-200 p-1 text-center rounded-t">/g, '<th colspan="2" class="bg-gray-200 p-1 text-center rounded-t text-[10px]">').replace(/lg:w-[900px]/g, 'lg:w-[500px]')}
+                ${html_.outerHTML.replace(/text-xs/g, 'text-[7px]').replace(/<h2 class="font-semibold">/g, '<h2 class="font-semibold text-[10px]">').replace(/<th colspan="2" class="bg-gray-200 p-1 text-center rounded-t">/g, '<th colspan="2" class="bg-gray-200 p-1 text-center rounded-t text-[10px]">')}
               </div>
             </div>
           </body>

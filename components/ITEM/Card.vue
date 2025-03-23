@@ -89,7 +89,7 @@ const generatePDF = () => {
                       <tbody>
                         <tr class="border-b border-gray-300">
                           <td class="bg-gray-200 p-1 rounded-tl w-[40%] text-right font-semibold text-xs">{{ $t('common.damage') }}</td>
-                          <td class="bg-gray-100 p-1 rounded-tr">
+                          <td class="bg-gray-100 p-1 rounded-tr text-xs">
                             <Skeleton v-if="loading" width="15px" height="15px" />
                             <span v-else>
                                 <span v-if="item.damage">
