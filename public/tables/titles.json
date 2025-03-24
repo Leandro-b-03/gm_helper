@@ -1,0 +1,14 @@
+[
+  { "label": "common.random", "value": "random" },
+  { "label": "titles.no-title", "value": "no-title" },
+  { "label": "titles.king", "value": "king" },
+  { "label": "titles.queen", "value": "queen" },
+  { "label": "titles.princess", "value": "princess" },
+  { "label": "titles.duchess", "value": "duchess" },
+  { "label": "titles.earl", "value": "earl" },
+  { "label": "titles.countess", "value": "countess" },
+  { "label": "titles.marquess", "value": "marquess" },
+  { "label": "titles.marchioness", "value": "marchioness" },
+  { "label": "titles.viscountess", "value": "viscountess" },
+  { "label": "titles.baroness", "value": "baroness" }
+]

@@ -14,5 +14,6 @@
   { "label": "damage.psychic", "value": "psychic" },
   { "label": "damage.thunder", "value": "thunder" },
   { "label": "damage.force", "value": "force" },
-  { "label": "damage.eldritch", "value": "eldritch" }
+  { "label": "damage.eldritch", "value": "eldritch" },
+  { "label": "damage.chronurgy", "value": "chronurgy" }
 ]

@@ -1,50 +1,14 @@
 <script setup lang="ts">
-import defaultImage from '@/assets/images/npc/default_npc.webp';
 
 const { locale } = useNuxtApp().$i18n;
-const { database, ID } = useAppwrite();
+const { database, ID, Query } = useAppwrite();
 const config = useRuntimeConfig();
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
+const npcs = ref([]);
 const loading = ref(false);
-const panelColapsed = ref(false);
-
-const npc = reactive({
-  show: false,
-  name: '',
-  age: 0,
-  race: '',
-  gender: '',
-  alignment: '',
-  level: 1,
-  class_: '',
-  job: '',
-  background: '',
-  sexOrientation: '',
-  appearance: '',
-  personality: '',
-  affiliations: '',
-  goal: '',
-  backstory: '',
-  languages: '',
-  savingThrows: '',
-  armourClass: 0,
-  initiative: '',
-  speed: '',
-  hitPoints: 0,
-  hitDice: '',
-  attr: {},
-  description: '',
-  appearance_: '',
-  created_at: '',
-  enemy: false,
-  secretPlot: '',
-  items: [],
-  spells: [],
-  difficult: '',
-  image: defaultImage,
-});
+const panelColapsed = ref(true);
 
 const { data: age, status: statusAge, error: errorAge, refresh: refreshAge, clear: clearAge } = await useAsyncData(
   'age',
@@ -55,8 +19,8 @@ const { data: races, status: statusRaces, error: errorRaces, refresh: refreshRac
   () => $fetch(`${config.public.url}tables/races.json`)
 );
 const { data: gender, status: statusGender, error: errorGender, refresh: refreshGender, clear: clearGender } = await useAsyncData(
-    'gender',
-    () => $fetch(`${config.public.url}tables/gender.json`)
+  'gender',
+  () => $fetch(`${config.public.url}tables/gender.json`)
 );
 const { data: alignments, status: statusAlignments, error: errorAlignments, refresh: refreshAlignments, clear: clearAlignments } = await useAsyncData(
   'alignments',
@@ -149,105 +113,24 @@ const onFormSubmit = async ({ values, valid }) => {
 
   panelColapsed.value = true;
   loading.value = true;
-  npc.show = true;
+  
+};
 
+const fetchDocuments = async () => {
   try {
-    const formData = new FormData();
-    formData.append('generate', 'NPC');
-    Object.entries(values).map(([key, value]) => {
-      formData.append(key, value.value);
-    });
-
-    const NPC = await $fetch('/api/core', { method: 'POST', body: formData });
-
-    Object.assign(npc, {
-      ...NPC,
-      age: parseInt(NPC.age, 10),
-      level: parseInt(NPC.level, 10),
-      armourClass: parseInt(NPC.armour_class, 10),
-      attr: NPC.attr,
-      items: NPC.items ? NPC.items : [],
-      spells: NPC.spells ? NPC.spells : [],
-      secretPlot: NPC.secret_plot,
-      sexOrientation: NPC.sex_orientation,
-      hitDice: NPC.hit_dice,
-      hitPoints: NPC.hit_points,
-      image: defaultImage,
-    });
-
-    const response = await database.createDocument(
-      config.public.databaseID,
-      config.public.npcCollectionID,
-      ID.unique(),
-      {
-        ...NPC,
-        age: parseInt(NPC.age, 10),
-        level: parseInt(NPC.level, 10),
-        armour_class: parseInt(NPC.armour_class, 10),
-        attr: [JSON.stringify(NPC.attr)],
-        items: NPC.items ? [JSON.stringify(NPC.items)] : [],
-        spells: NPC.spells ? [JSON.stringify(NPC.spells)] : [],
-      }
-    );
-
-    router.push({
-      name: `generate-npc-id___${locale.value}`,
-      params: { id: response.$id },
-    });
+    const { documents: npcsData } = await database.listDocuments(config.public.databaseID, config.public.npcCollectionID, [
+        Query.limit(25),
+      Query.offset(0),
+      Query.orderDesc('$createdAt')
+    ]);
+    npcs.value = npcsData;
   } catch (error) {
-    console.error('Error creating NPC:', error);
-  } finally {
-    loading.value = false;
+    console.log(error);
   }
 };
 
-const onFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      npc.image = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
-onMounted(async () => {
-  const id = route.params.id;
-  if (id !== 'new') {
-    npc.show = true;
-    loading.value = true;
-    try {
-      const response = await database.getDocument(
-        config.public.databaseID,
-        config.public.npcCollectionID,
-        id
-      );
-      
-      Object.assign(npc, {
-        ...response,
-        age: parseInt(response.age, 10),
-        armourClass: parseInt(response.armour_class, 10),
-        class_: response.class,
-        level: parseInt(response.level, 10),
-        attr: JSON.parse(response.attr[0]),
-        items: response.items[0] ? JSON.parse(response.items[0]) : [],
-        spells: response.spells[0] ? JSON.parse(response.spells[0]) : [],
-        secretPlot: response.secret_plot,
-        savingThrows: response.saving_throws,
-        sexOrientation: response.sex_orientation,
-        hitDice: response.hit_dice,
-        hitPoints: response.hit_points,
-      });
-      panelColapsed.value = true;
-    } catch (error) {
-      console.error('Error fetching NPC:', error);
-    } finally {
-      loading.value = false;
-    }
-  } else {
-    panelColapsed.value = false;
-  }
+onMounted(() => {
+  fetchDocuments();
 });
 </script>
 
@@ -273,8 +156,9 @@ onMounted(async () => {
     :enemy="enemy"
     :initialValues="initialValues"
     :resolver="resolver"
-    :onFormSubmit="onFormSubmit"
+    :onFormSubmit="onFormSubmit",
+    :search="true"
   />
 
-  <NPCCard :npc="npc" :loading="loading" :onFileChange="onFileChange" />
+  <NPCSearchCard :npcs="npcs" :loading="loading"/>
 </template>

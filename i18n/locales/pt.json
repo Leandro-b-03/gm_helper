@@ -240,7 +240,7 @@
   },
   "jobs": {
     "title": "Profissão",
-    "no_job": "Sem profissão",
+    "no-job": "Sem profissão",
     "blacksmith": "Ferreiro",
     "farmer": "Fazendeiro",
     "merchant": "Comerciante",
@@ -254,7 +254,17 @@
     "soldier": "Soldado",
     "carpenter": "Carpinteiro",
     "sailor": "Marinheiro",
-    "miner": "Mineiro"
+    "miner": "Mineiro",
+    "king": "Rei",
+    "queen": "Rainha",
+    "princess": "Princesa",
+    "duchess": "Duquesa",
+    "earl": "Conde",
+    "countess": "Condessa",
+    "marquess": "Marquês",
+    "marchioness": "Marquesa",
+    "viscountess": "Viscondessa",
+    "baroness": "Baronesa"
   },
   "appearances": {
     "title": "Aparência",
@@ -353,6 +363,7 @@
   },
   "spells": {
     "title": "Magias",
+    "none": "Nenhuma",
     "cantrips": "Truques",
     "level_1": "Nível 1",
     "level_2": "Nível 2",

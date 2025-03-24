@@ -1,6 +1,6 @@
 [
   { "label": "common.random", "value": "random" },
-  { "label": "jobs.no_job", "value": "no_job" },
+  { "label": "jobs.no-job", "value": "no-job" },
   { "label": "jobs.blacksmith", "value": "blacksmith" },
   { "label": "jobs.farmer", "value": "farmer" },
   { "label": "jobs.merchant", "value": "merchant" },
@@ -14,5 +14,15 @@
   { "label": "jobs.soldier", "value": "soldier" },
   { "label": "jobs.carpenter", "value": "carpenter" },
   { "label": "jobs.sailor", "value": "sailor" },
-  { "label": "jobs.miner", "value": "miner" }
+  { "label": "jobs.miner", "value": "miner" },
+  { "label": "jobs.king", "value": "king" },
+  { "label": "jobs.queen", "value": "queen" },
+  { "label": "jobs.princess", "value": "princess" },
+  { "label": "jobs.duchess", "value": "duchess" },
+  { "label": "jobs.earl", "value": "earl" },
+  { "label": "jobs.countess", "value": "countess" },
+  { "label": "jobs.marquess", "value": "marquess" },
+  { "label": "jobs.marchioness", "value": "marchioness" },
+  { "label": "jobs.viscountess", "value": "viscountess" },
+  { "label": "jobs.baroness", "value": "baroness" }
 ]
