@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<{
 
 const panelColapsed = ref(props.panelColapsed);
 
-const search = ref(route.query.id ? false : true);
+const search = ref(route.params.id ? false : true);
 
 const header = ref(!search.value ? 'generate.npcs.header' : 'search.npcs.header');
 const button = ref(!search.value ? 'common.generate' : 'search.title');

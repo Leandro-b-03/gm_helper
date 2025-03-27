@@ -173,6 +173,7 @@ const onFormSubmit = async ({ values, valid }) => {
       hitDice: NPC.hit_dice,
       hitPoints: NPC.hit_points,
       image: defaultImage,
+      enemy: values.enemy.value,
     });
 
     const response = await database.createDocument(

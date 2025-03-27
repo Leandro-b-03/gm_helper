@@ -133,12 +133,16 @@
     "npcs": {
       "title": "NPC",
       "description": "NPC gerado foi:",
-      "header": "Selecione as opções para gerar o NPC ou deixe tudo aleatório mesmo"
+      "header": "Selecione as opções para gerar o NPC ou deixe tudo aleatório mesmo",
+      "list": "Lista de NPCs",
+      "create": "Criar NPC"
     },
     "items": {
       "title": "Itens",
       "description": "O item foi gerado com sucesso",
-      "header": "Selecione as opções para gerar o item ou deixe tudo aleatório mesmo"
+      "header": "Selecione as opções para gerar o item ou deixe tudo aleatório mesmo",
+      "list": "Lista de Itens",
+      "create": "Criar Item"
     },
     "enemies": {
       "title": "Inimigos",

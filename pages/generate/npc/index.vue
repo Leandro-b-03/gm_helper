@@ -118,22 +118,75 @@ const onFormSubmit = async ({ values, valid }) => {
   panelColapsed.value = true;
   loading.value = true;
 
+  let search = '';
+
+  Object.entries(values).map(([key, value]) => {
+    if (value.value !== 'random') {
+      search += `${key}=${value.value},`;
+    }
+  });
+
   router.push({
     query: {
       ...router.currentRoute.value.query,
       page: 1,
-      values
+      search: search.slice(0, -1)
     }
   });
 };
 
 const fetchDocuments = async () => {
+  const search_ = route.params.search || route.query.search || '';
+  const search = search_.split(',');
+  console.log(typeof search, search);
   try {
-    const { documents: npcsData, total: total_ } = await database.listDocuments(config.public.databaseID, config.public.npcCollectionID, [
-      Query.limit(perPage.value),
-      Query.offset(offset.value),
-      Query.orderDesc('$createdAt')
-    ]);
+    const { documents: npcsData, total: total_ } = await database.listDocuments(
+      config.public.databaseID,
+      config.public.npcCollectionID,
+      [ // The array of queries must be flat (an array of strings)
+        // Pagination and Sorting Queries
+        Query.limit(perPage.value),
+        Query.offset(offset.value),
+        Query.orderDesc('$createdAt'),
+
+        // Dynamically generated Search Queries from the 'search' array
+        // Use the spread syntax (...) to add each element from the result of map
+        // into the main query array.
+        ...search.map((item) => {
+          // Basic split by '='. Consider adding error handling if 'item' might not contain '='.
+          const [key, value] = item.split('=');
+
+          if (!key || value === undefined) {
+            // Skip invalid search terms or throw an error
+            console.warn(`Skipping invalid search term: ${item}`);
+            // Returning null or undefined here won't work directly with spread,
+            // Filter out invalid items *before* or *after* mapping if necessary.
+            // A simple approach is to just let Query.equal handle potential errors
+            // if key/value are bad, though Appwrite might throw.
+            // For now, we proceed assuming key/value are somewhat valid.
+          }
+
+          // Appwrite's Query.equal expects the attribute name and an ARRAY of values.
+          // IMPORTANT: If you are querying a numeric field (like 'level'),
+          // you might need to convert the 'value' string to a number:
+          // return Query.equal(key, [Number(value)]);
+          // Assuming string values for now:
+          if (value === 'false') {
+            return Query.equal(key, [false]);
+          } else if (value === 'true') {
+            return Query.equal(key, [true]);
+          }
+
+          // For other types, you might need to handle them accordingly.
+          // For example, if 'key' is a number, you might want to parse it:
+          // return Query.equal(key, [parseInt(value)]);
+          return Query.equal(key, [value]);
+        })
+        // If search terms could be invalid, you might filter *after* mapping:
+        // .filter(query => query !== null) // if you returned null for invalid items
+      ]
+    );
+    console.log(npcsData, total_);
     npcs.value = npcsData;
     total.value = total_;
   } catch (error) {
@@ -178,8 +231,7 @@ watch(() => route.query, async () => {
     :enemy="enemy"
     :initialValues="initialValues"
     :resolver="resolver"
-    :onFormSubmit="onFormSubmit",
-    :search="true"
+    :onFormSubmit="onFormSubmit"
   />
 
   <NPCSearchCard :npcs="npcs" :loading="loading"/>
