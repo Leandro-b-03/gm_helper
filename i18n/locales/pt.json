@@ -99,7 +99,8 @@
       "17_to_18": "17 a 18",
       "17_to_20": "17 a 20",
       "19_to_20": "19 a 20"
-    }
+    },
+    "total": "Total: "
   },
   "attr": {
     "str": "Força",
@@ -501,7 +502,7 @@
     "additional_damage": "Dano adicional",
     "unarmored_movement": "Movimento sem armadura",
     "stacks_with": "Stack com",
-    "special_effect": "Efeito especial",
+    "special_effect": "Efeito especial"
   },
   "damage": {
     "title": "Tipo de Dano",
@@ -521,5 +522,11 @@
     "thunder": "Trovão",
     "force": "Força",
     "eldritch": "Sobrenatural"
+  },
+  "search": {
+    "title": "Buscar",
+    "npcs": {
+      "header": "Buscar por NPCs"
+    }
   }
 }

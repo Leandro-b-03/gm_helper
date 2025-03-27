@@ -1,32 +1,52 @@
 <script setup lang="ts">
 const router = useRouter();
 
+const expandedKeys = ref([]);
 const items = ref([
-{
-  separator: true
-},
-{
-  label: 'generate.title',
+  {
+  key: 'npcs',
+  label: 'generate.npcs.title',
+  icon: 'pi pi-user',
   items: [
     {
-      label: 'generate.npcs.title',
-      icon: 'pi pi-user',
+      key: 'npcs-list',
+      label: 'generate.npcs.list',
+      icon: 'pi pi-list',
       command: () => router.push('/generate/npc')
     },
     {
-      label: 'generate.items.title',
-      icon: 'pi pi-box',
-      command: () => router.push('/generate/item')
+      key: 'npcs-create',
+      label: 'generate.npcs.create',
+      icon: 'pi pi-plus',
+      command: () => router.push('/generate/npc/new')
     }
   ]
 },
 {
-  separator: true
+  key: 'items',
+  label: 'generate.items.title',
+  icon: 'pi pi-box',
+  items: [
+    {
+      key: 'items-list',
+      label: 'generate.items.list',
+      icon: 'pi pi-list',
+      command: () => router.push('/generate/item')
+    },
+    {
+      key: 'items-create',
+      label: 'generate.items.create',
+      icon: 'pi pi-plus',
+      command: () => router.push('/generate/item/new')
+    }
+  ]
 },
-{
+  {
+  key: 'combat',
   label: 'combat.title',
   items: [
     {
+      key: 'combat-list',
       label: 'combat.initiative.title',
       icon: 'pi pi-cog',
       command: () => router.push('/combat/initiative')
@@ -38,26 +58,6 @@ const items = ref([
 
 <template>
   <aside class="layout-sidebar m-2 w-full md:w-60 fixed">
-    <Menu :model="items" class="w-full shadow">
-    <template #start>
-      <span class="flex justify-center items-center gap-1 px-2 py-2">
-        <img src="@/assets/images/logo.svg" alt="PrimeVue Logo" class="h-6" />
-        <span class="text-xl font-semibold">{{ $t('gm.title') }} <span class="text-primary">{{ $t('app') }}</span></span>
-      </span>
-    </template>
-    <template #submenulabel="{ item }">
-      <span class="text-primary font-bold">{{ $t(item.label) }}</span>
-    </template>
-    <template #item="{ item, props }">
-      <a v-ripple class="flex items-center" v-bind="props.action">
-        <span :class="item.icon" />
-        <span>{{ $t(item.label) }}</span>
-        <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-        <span v-if="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
-      </a>
-    </template>
-    <template #end>
-    </template>
-</Menu>
+    <PanelMenu v-model:expandedKeys="expandedKeys" :model="items" class="w-full" />
   </aside>
 </template>

@@ -1,33 +1,38 @@
 <script setup lang="ts">
 const route = useRoute();
-const router = useRouter();
 
 const props = withDefaults(defineProps<{
-  age: Object,
-  races: Object,
-  gender: Object,
-  alignments: Object,
-  levels: Object,
-  classesData: Object,
-  jobs: Object,
-  backgrounds: Object,
-  sexOrientations: Object,
-  appearances: Object,
-  personalities: Object,
-  affiliations: Object,
-  goals: Object,
-  backstories: Object,
-  enemy: Object,
-  difficulty: Object,
-  onFormSubmit: Function,
-  panelColapsed: Ref<boolean>,
-  loading: Ref<boolean>,
-  resolver: Function,
-  initialValues: Object,
-  search: boolean,
+  age: any,
+  races: any,
+  gender: any,
+  alignments: any,
+  levels: any,
+  classesData: any,
+  jobs: any,
+  backgrounds: any,
+  sexOrientations: any,
+  appearances: any,
+  personalities: any,
+  affiliations: any,
+  goals: any,
+  backstories: any,
+  enemy: any,
+  difficulty: any,
+  onFormSubmit: any,
+  panelColapsed: boolean,
+  loading: boolean,
+  resolver: any,
+  initialValues: any,
 }>(), {
-  search: false,
+  panelColapsed: false,
 });
+
+const panelColapsed = ref(props.panelColapsed);
+
+const search = ref(route.query.id ? false : true);
+
+const header = ref(!search.value ? 'generate.npcs.header' : 'search.npcs.header');
+const button = ref(!search.value ? 'common.generate' : 'search.title');
 const panel = ref(null);
 
 watch(() => props.panelColapsed, () => {
@@ -38,8 +43,8 @@ watch(() => props.panelColapsed, () => {
 </script>
 
 <template>
-  <Panel :header="$t(!search ? 'generate.npcs.header' : 'search.npcs.header')" class="w-full shadow-sm" toggleable :collapsed="panelColapsed" ref="panel">
-    <Form v-slot="$form" :initialValues :resolver @submit="!search ? onFormSubmit : onSearch" class="flex flex-col gap-4 w-full">
+  <Panel :header="$t(header)" class="w-full shadow-sm" toggleable :collapsed="props.panelColapsed" ref="panel" @toggle="panelColapsed = !panelColapsed">
+    <Form v-slot="$form" :initialValues :resolver @submit="props.onFormSubmit" class="flex flex-col gap-4 w-full">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
         <div class="flex flex-col gap-1">
           <label for="age" class="text-sm font-medium text-surface-500 dark:text-surface-300 mb-2">{{ $t('age.title') }}</label>
@@ -298,7 +303,7 @@ watch(() => props.panelColapsed, () => {
           <Message v-if="$form.difficulty?.invalid" severity="error" size="small" variant="simple">{{ $form.difficulty.error?.message }}</Message>
         </div>
       </div>
-      <Button type="submit" severity="secondary" :label="$t(!search ? 'common.generate' : 'common.search')" :disabled="panelColapsed.value" :loading="loading" />
+      <Button type="submit" severity="secondary" :label="$t(button)" :disabled="panelColapsed" :loading="props.loading" />
     </Form>
   </Panel>
 </template>

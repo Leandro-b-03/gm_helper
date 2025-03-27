@@ -9,3 +9,10 @@ export const textEllipsis = (text: string, maxLength: number): string => {
   }
   return `${text.slice(0, maxLength)}...`;
 };
+
+export const scrollToTop = (): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+}
