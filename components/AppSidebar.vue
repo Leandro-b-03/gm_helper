@@ -48,13 +48,21 @@ const items = ref([
   {
     key: 'combat',
     label: 'combat.title',
+    icon: 'pi pi-shield',
     items: [
+      {
+        key: 'combat-list',
+        label: 'combat.initiative.list',
+        icon: 'pi pi-list',
+        shortcut: 'Ctrl+Shift+3',
+        command: () => router.push('/combat')
+      },
       {
         key: 'combat-list',
         label: 'combat.initiative.title',
         icon: 'pi pi-cog',
-        shortcut: 'Ctrl+Shift+3',
-        command: () => router.push('/combat/initiative')
+        shortcut: 'Ctrl+Shift+Alt+3',
+        command: () => router.push('/combat/new')
       }
     ]
   }
@@ -70,7 +78,10 @@ function handleShortcut(event: KeyboardEvent) {
     'Ctrl+Shift+@': '/generate/item',
     'Ctrl+Shift+Alt+2': '/generate/item/new',
     'Ctrl+Shift+Alt+@': '/generate/item/new',
-    'Ctrl+Shift+3': '/combat/initiative',
+    'Ctrl+Shift+3': '/combat',
+    'Ctrl+Shift+#': '/combat',
+    'Ctrl+Shift+Alt+3': '/combat/new',
+    'Ctrl+Shift+Alt+#': '/combat/new',
   };
 
   const pressedKeys = [

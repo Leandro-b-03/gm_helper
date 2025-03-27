@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    npcs: Object[];
-    loading: boolean;
-  }>();
+const props = defineProps<{
+  npcs: Object[];
+  loading: boolean;
+}>();
 </script>
 
 <template>
@@ -34,9 +34,9 @@
               <h4 v-else class="!text-[12px]">{{ $t(`races.${npc.race}`) }}</h4>
             </div>
             <div>
-              <div class="mb-4 text-justify">
+              <div class="mb-4 text-justify bg-gray-100 p-1 rounded border border-gray-200">
                 <Skeleton v-if="loading" width="100%" height="60px" />
-                <p v-else class="text-gray-700 text-sm">{{ textEllipsis(npc.description, 350) }}</p>
+                <p v-else class="text-gray-700 text-sm">{{ textEllipsis(npc.description, 325) }}</p>
               </div>
             </div>
             <div class="absolute bottom-6 w-full">
@@ -58,7 +58,13 @@
           </div>
         </template>
       </Card>
-      <div v-else>{{ $t('common.npc_empty') }}</div>
+      <Card v-else class="w-[355px] h-[500px] mt-2 shadow-2xl overflow-hidden">
+        <template #content>
+          <div class="h-[400px] w-full flex items-center justify-center">
+            {{ $t('common.item_empty') }}
+          </div>
+        </template>
+      </Card>
     </TransitionFade>
   </div>
 </template>

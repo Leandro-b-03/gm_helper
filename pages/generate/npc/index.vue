@@ -138,7 +138,6 @@ const onFormSubmit = async ({ values, valid }) => {
 const fetchDocuments = async () => {
   const search_ = route.params.search || route.query.search || '';
   const search = search_.split(',');
-  console.log(typeof search, search);
   try {
     const { documents: npcsData, total: total_ } = await database.listDocuments(
       config.public.databaseID,
@@ -156,7 +155,7 @@ const fetchDocuments = async () => {
           // Basic split by '='. Consider adding error handling if 'item' might not contain '='.
           const [key, value] = item.split('=');
 
-          if (!key || value === undefined) {
+          if (!key || value === undefined || key === "" || value === null) {
             // Skip invalid search terms or throw an error
             console.warn(`Skipping invalid search term: ${item}`);
             // Returning null or undefined here won't work directly with spread,
@@ -164,6 +163,7 @@ const fetchDocuments = async () => {
             // A simple approach is to just let Query.equal handle potential errors
             // if key/value are bad, though Appwrite might throw.
             // For now, we proceed assuming key/value are somewhat valid.
+            return Query.isNotNull("name");
           }
 
           // Appwrite's Query.equal expects the attribute name and an ARRAY of values.
@@ -186,7 +186,6 @@ const fetchDocuments = async () => {
         // .filter(query => query !== null) // if you returned null for invalid items
       ]
     );
-    console.log(npcsData, total_);
     npcs.value = npcsData;
     total.value = total_;
   } catch (error) {

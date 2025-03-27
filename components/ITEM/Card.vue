@@ -63,28 +63,28 @@ const generatePDF = () => {
                     <div class="relative w-full h-auto mb-2 bg-gray-100 rounded overflow-hidden"
                       @mouseover="showButtons = true"
                       @mouseleave="showButtons = false">
-                    <transition name="fade">
-                      <div v-show="showButtons" class="absolute flex flex-row justify-between w-full top-0 left-0 z-10 p-2">
-                        <Button icon="pi pi-upload" severity="secondary" @click="openUpload" />
-                        <Button icon="pi pi-question-circle" severity="secondary" @click="togglePopover" />
-                        <input type="file" ref="file" class="hidden" @change="onFileChange" />
-                      </div>
-                    </transition>
-                    <Popover ref="op">
-                      <p
-                        v-for="evolutionLevel in item.evolutionLevel"
-                        :key="evolutionLevel.appearance"
-                      >
-                        {{
-                          `${$t(`item_tier.tier_${evolutionLevel.level}`)} - ${
-                            evolutionLevel.appearance
-                          }`
-                        }}
-                      </p>
-                    </Popover>
-                    <Skeleton v-if="loading" width="100%" height="438px" />
-                    <img v-else :src="item.image" :alt="item.name" class="w-full h-auto" />
-                  </div>                  
+                      <transition name="fade">
+                        <div v-show="showButtons" class="absolute flex flex-row justify-between w-full top-0 left-0 z-10 p-2">
+                          <Button icon="pi pi-upload" severity="secondary" @click="openUpload" />
+                          <Button icon="pi pi-question-circle" severity="secondary" @click="togglePopover" />
+                          <input type="file" ref="file" class="hidden" @change="onFileChange" />
+                        </div>
+                      </transition>
+                      <Popover ref="op">
+                        <p
+                          v-for="evolutionLevel in item.evolutionLevel"
+                          :key="evolutionLevel.appearance"
+                        >
+                          {{
+                            `${$t(`item_tier.tier_${evolutionLevel.level}`)} - ${
+                              evolutionLevel.appearance
+                            }`
+                          }}
+                        </p>
+                      </Popover>
+                      <Skeleton v-if="loading" width="100%" height="438px" />
+                      <img v-else :src="item.image" :alt="item.name" class="w-full h-auto" />
+                    </div>                  
                     <table class="table-auto w-full border-separate mb-2">
                       <tbody>
                         <tr class="border-b border-gray-300">

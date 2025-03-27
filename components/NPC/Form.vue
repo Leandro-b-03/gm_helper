@@ -36,7 +36,8 @@ const button = ref(!search.value ? 'common.generate' : 'search.title');
 const panel = ref(null);
 
 watch(() => props.panelColapsed, () => {
-  if (panel.value) {
+  if (props.panelColapsed === true) {
+    console.log('Panel is collapsed');
     panel.value.toggle();
   }
 });

@@ -50,14 +50,11 @@ async function handleNPCGeneration(data: any, aiCall: any, NPC: any) {
     npc.level = attr.level;
     npc.personality = attr.personality;
     npc.sex_orientation = attr.sex_orientation;
+    npc.difficult = attr.difficult;
     npc.age = attr.age == 'unknown' ? -1 : attr.age;
+    npc.enemy = attr.enemy;
 
-    if (data.get('enemy')) {
-      npc.enemy = true;
-      npc.difficult = attr.difficult;
-    }
-
-    console.log(npc);
+    console.log("NPC generated:", npc);
 
     return await npc;
 }

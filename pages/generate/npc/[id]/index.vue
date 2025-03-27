@@ -173,7 +173,6 @@ const onFormSubmit = async ({ values, valid }) => {
       hitDice: NPC.hit_dice,
       hitPoints: NPC.hit_points,
       image: defaultImage,
-      enemy: values.enemy.value,
     });
 
     const response = await database.createDocument(
@@ -188,6 +187,7 @@ const onFormSubmit = async ({ values, valid }) => {
         attr: [JSON.stringify(NPC.attr)],
         items: NPC.items ? [JSON.stringify(NPC.items)] : [],
         spells: NPC.spells ? [JSON.stringify(NPC.spells)] : [],
+        enemy: values.enemy.value,
       }
     );
 
