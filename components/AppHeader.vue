@@ -1,34 +1,14 @@
 <script setup lang="ts">
+const router = useRouter();
+
 const items = ref([
-    {
-        label: 'Home',
-        icon: 'pi pi-home'
-    },
-    {
-        label: 'Projects',
-        icon: 'pi pi-search',
-        badge: 3,
-        items: [
-            {
-                label: 'Core',
-                icon: 'pi pi-bolt',
-                shortcut: '⌘+S'
-            },
-            {
-                label: 'Blocks',
-                icon: 'pi pi-server',
-                shortcut: '⌘+B'
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'UI Kit',
-                icon: 'pi pi-pencil',
-                shortcut: '⌘+U'
-            }
-        ]
+  {
+    label: 'Home',
+    icon: 'pi pi-home',
+    command: () => {
+      router.push({ path: '/' });
     }
+  }
 ]);
 </script>
 
@@ -47,10 +27,6 @@ const items = ref([
         </a>
       </template>
       <template #end>
-        <div class="flex items-center gap-2">
-          <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-          <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />
-        </div>
       </template>
     </Menubar>
   </div>

@@ -25,9 +25,9 @@ const props = defineProps<{
           <div class="h-[400px] relative">
             <div class="mb-1 w-full flex flex-row justify-start">
               <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
-              <h2 v-else class="text-gray-950 mr-2 text-lg">{{ $t(`classes.${item.class}`) }}</h2>
+              <h2 v-else class="text-gray-950 mr-2 text-lg">{{ $t(`type.${item.type}`) }}</h2>
               <Skeleton v-if="loading" width="100px" height="15px" />
-              <h2 v-else class="text-gray-950 text-lg">{{ $t(`type.${item.type}`) }}</h2>
+              <h2 v-else class="text-gray-950 text-lg">{{ $t(`classes.${item.class}`) }}</h2>
             </div>
             <div class="mb-4">
               <Skeleton v-if="loading" width="100px" height="15px" class="mb-1" />
@@ -36,7 +36,7 @@ const props = defineProps<{
             <div>
               <div class="mb-4 text-justify bg-gray-100 p-1 rounded border border-gray-200">
                 <Skeleton v-if="loading" width="100%" height="60px" />
-                <p v-else class="text-gray-700 text-sm">{{ textEllipsis(item.description, 350) }}</p>
+                <p v-else class="text-gray-700 text-sm">{{ textEllipsis(item.description, 300) }}</p>
               </div>
             </div>
             <div class="absolute bottom-6 w-full">
@@ -47,9 +47,9 @@ const props = defineProps<{
                     <td class="bg-gray-100 p-1 rounded-tr text-xs">
                       <Skeleton v-if="loading" width="15px" height="15px" />
                       <span v-else>
-                          <span v-if="item.damage">
-                            {{ item.damage?.base }}
-                            <template v-if="item.damage?.versatile">, {{ item.damage?.versatile }}</template>
+                          <span v-if="JSON.parse(item.damage)">
+                            {{ JSON.parse(item.damage)?.base }}
+                            <template v-if="JSON.parse(item.damage)?.versatile">, {{ textEllipsis(JSON.parse(item.damage)?.versatile, 15) }}</template>
                           </span>
                           <span v-else>-</span>
                       </span>
@@ -59,7 +59,7 @@ const props = defineProps<{
                     <td class="bg-gray-200 p-1 rounded-bl text-right font-semibold text-xs">{{ $t('common.requirements') }}</td>
                     <td class="bg-gray-100 p-1 rounded-br">
                       <Skeleton v-if="loading" width="80px" height="15px" />
-                      <span v-else class="text-xs">{{ item.requirements }}</span>
+                      <span v-else class="text-xs text-justify">{{ textEllipsis(item.requirements, 45) }}</span>
                     </td>
                   </tr>
                 </tbody>
