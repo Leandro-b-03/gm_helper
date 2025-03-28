@@ -13,9 +13,11 @@ const turns = ref([]);
 
 const updateTurns = (combat: any) => {
   turns.value = combat.data.map((item, index) => ({
-    ...item,
-    order: index + 1
+    whosTurn: index,
+    hp: item.hp
   }));
+
+  console.log('turns', turns.value);
 };
 
 onMounted(() => {
@@ -53,9 +55,9 @@ watch(() => props.combat, (newCombat) => {
           <Tag :severity="data.status === 'alive' ? 'success' : 'danger'" :value="$t(data.status)"></Tag>
         </template>
       </Column>
-      <Column v-for="(col, index) in combat.columns" :key="index" :field="col.field" :header="$t(col.header)" :style="{ width: col.width }">
+      <Column v-for="(col, index) in turns" :key="index" :field="col.index" :header="`${$t('common.turn')} ${index}`">
         <template #body="{ data }">
-          <InputText v-model="data[col.field]" />
+          <InputText v-model="data[col.hp]" />
         </template>
       </Column>
     </DataTable>
