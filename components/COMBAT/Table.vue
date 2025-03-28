@@ -32,6 +32,12 @@ watch(() => props.combat, (newCombat) => {
 <template>
   <div class="bg-white dark:bg-gray-900 shadow rounded mt-4 overflow-hidden">
     <DataTable :value="combat.data" editMode="cell" @cell-edit-complete="onCellEditComplete">
+      <template #header>
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <Button icon="pi pi-user" :label="$t('combat.add_player')" severity="success" />
+          <Button icon="pi pi-plus" :label="$t('combat.add_turn')" severity="secondary" />
+        </div>
+      </template>
       <Column field="order" style="width: 5%" header="#">
         <template #body="{ index }">{{ index + 1 }}</template>
       </Column>

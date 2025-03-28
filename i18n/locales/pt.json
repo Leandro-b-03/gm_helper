@@ -160,7 +160,10 @@
       "title": "Iniciativa",
       "description": "Gere o conteúdo estático do seu site",
       "list": "Lista de Combates",
-    }
+    },
+    "add_player": "Adicionar Jogador",
+    "add_enemy": "Adicionar Inimigo",
+    "add_turn": "Adicionar Turno"
   },
   "age": {
     "title": "Idade",
